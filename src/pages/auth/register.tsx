@@ -16,10 +16,22 @@ function RegisterPage() {
                 </Flex>
 
                 <Flex direction="column" gap={5} w="full">
-                    <Input type="text" w="full" placeholder='ชื่อ' bgColor="brand.100" border="none" px={6} py={7} fontFamily="prompt" _focusVisible={{}} />
-                    <Input type="text" w="full" placeholder='นามสกุล' bgColor="brand.100" border="none" px={6} py={7} fontFamily="prompt" _focusVisible={{}} />
-                    <Input type="email" w="full" placeholder='อีเมล' bgColor="brand.100" border="none" px={6} py={7} fontFamily="prompt" _focusVisible={{}} />
-                    <Input type="tel" maxLength={10} w="full" placeholder='เบอร์โทร' bgColor="brand.100" border="none" px={6} py={7} fontFamily="prompt" _focusVisible={{}} />
+                    <Input
+                        id="firstname" name="firstname" type="text" placeholder='ชื่อ'
+                        w="full" bgColor="brand.100" border="none" px={6} py={7} fontFamily="prompt" _focusVisible={{}}
+                    />
+                    <Input
+                        id="lastname" name="lastname" type="text" placeholder='นามสกุล'
+                        w="full" bgColor="brand.100" border="none" px={6} py={7} fontFamily="prompt" _focusVisible={{}}
+                    />
+                    <Input
+                        id="email" name="email" type="email" placeholder='อีเมล'
+                        w="full" bgColor="brand.100" border="none" px={6} py={7} fontFamily="prompt" _focusVisible={{}}
+                    />
+                    <Input
+                        id="tel" name="tel" type="tel" maxLength={10} placeholder='เบอร์โทร'
+                        w="full" bgColor="brand.100" border="none" px={6} py={7} fontFamily="prompt" _focusVisible={{}}
+                    />
                     <Button bgColor="brand.500" color="white" w="full" size="lg" shadow="md">
                         ลงทะเบียนใช้งาน
                     </Button>
