@@ -32,7 +32,7 @@ function RegisterPage() {
                         id="tel" name="tel" type="tel" maxLength={10} placeholder='เบอร์โทร' autoComplete='tel'
                         w="full" bgColor="brand.100" border="none" px={6} py={7} fontFamily="prompt" _focusVisible={{}}
                     />
-                    <Button bgColor="brand.500" color="white" w="full" size="lg" shadow="md">
+                    <Button as={RouterLink} bgColor="brand.500" color="white" w="full" size="lg" to="/search" shadow="md">
                         ลงทะเบียนใช้งาน
                     </Button>
                 </Flex>

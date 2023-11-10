@@ -16,7 +16,7 @@ function LoginPage() {
 
                 <Flex direction="column" gap={5} w="full">
                     <Input type="tel" maxLength={10} w="full" placeholder='เบอร์โทร' bgColor="brand.100" border="none" px={6} py={7} fontFamily="prompt" _focusVisible={{}} />
-                    <Button bgColor="brand.500" color="white" w="full" size="lg" shadow="md">
+                    <Button as={RouterLink} bgColor="brand.500" color="white" w="full" size="lg" to="/search" shadow="md">
                         เข้าสู่ระบบ
                     </Button>
                 </Flex>
