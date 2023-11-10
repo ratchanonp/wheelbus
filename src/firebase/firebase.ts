@@ -26,7 +26,7 @@ if (import.meta.env.MODE === 'development') {
 
     console.log("Connect to emulator");
 
-    connectAuthEmulator(auth, 'localhost');
+    connectAuthEmulator(auth, 'http://localhost:9099');
     connectFirestoreEmulator(db, 'localhost', 8080);
     connectFunctionsEmulator(functions, 'localhost', 5001);
 }
