@@ -1,11 +1,39 @@
 import logo from '@/assets/logo.svg';
-import { Container, Image } from "@chakra-ui/react";
+import { Button, Container, Flex, Heading, Image, Input, Link, Text } from "@chakra-ui/react";
+import { Link as RouterLink } from 'react-router-dom';
+
 
 function RegisterPage() {
     return (
-        <Container maxW="sm" display="flex" h="100vh" w="100vw" alignItems="center" justifyContent="center" flexDirection="column" py={5}>
-            <Image src={logo} alt="WheelBus Logo" />
-        </Container>
+        <Container maxW="sm" display="flex" h="100svh" w="100svw" alignItems="center" justifyContent="center" flexDirection="column" py={5}>
+            <Flex h={10} justify="center">
+                <Image src={logo} alt="WheelBus Logo" />
+            </Flex>
+            <Flex flex={1} direction="column" align="center" justify="center" w="full" rowGap={5}>
+                <Flex direction="column" align="center">
+                    <Heading as="h1" size="xl" fontWeight="bold" color="brand.500"> ลงทะเบียน </Heading>
+                    <Text fontFamily="prompt" color="gray.500">กรอกข้อมูลด้านล่างเพื่อสมัครใช้งาน</Text>
+                </Flex>
+
+                <Flex direction="column" gap={5} w="full">
+                    <Input type="text" w="full" placeholder='ชื่อ' bgColor="brand.100" border="none" px={6} py={7} fontFamily="prompt" _focusVisible={{}} />
+                    <Input type="text" w="full" placeholder='นามสกุล' bgColor="brand.100" border="none" px={6} py={7} fontFamily="prompt" _focusVisible={{}} />
+                    <Input type="email" w="full" placeholder='อีเมล' bgColor="brand.100" border="none" px={6} py={7} fontFamily="prompt" _focusVisible={{}} />
+                    <Input type="tel" maxLength={10} w="full" placeholder='เบอร์โทร' bgColor="brand.100" border="none" px={6} py={7} fontFamily="prompt" _focusVisible={{}} />
+                    <Button bgColor="brand.500" color="white" w="full" size="lg" shadow="md">
+                        ลงทะเบียนใช้งาน
+                    </Button>
+                </Flex>
+            </Flex>
+            <Flex mt={20}>
+                <Text color="gray.500">
+                    มีบัญชีอยู่แล้วใช่ไหม?&nbsp;
+                    <Link as={RouterLink} to="/auth/login" color="brand.500" textDecor="underline">
+                        เข้าสู่ระบบ
+                    </Link>
+                </Text>
+            </Flex>
+        </Container >
     )
 }
 
