@@ -1,13 +1,12 @@
-import { Button, Container, Flex, Heading, Image, Link, Text } from "@chakra-ui/react"
-import logo from '../assets/logo.svg'
+import logo from '@/assets/logo.svg';
+import { Button, Container, Flex, Heading, Image, Link, Text } from "@chakra-ui/react";
 
-import { Link as RouterLink } from 'react-router-dom'
+import { Link as RouterLink } from 'react-router-dom';
 
 function HomePage() {
 
     return (
         <Container maxW="sm" display="flex" h="100vh" w="100vw" alignItems="center" justifyContent="center" flexDirection="column" py={5}>
-
             <Flex flex={1} direction="column" align="center" justify="center">
                 <Image src={logo} alt="WheelBus Logo" />
                 <Heading color="gray" as="h1" size="sm" fontWeight="light"> WheelBus </Heading>
