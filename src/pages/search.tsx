@@ -29,7 +29,7 @@ function SerchPage() {
 
     if (loading) {
         return (
-            <Flex w="100svw" h="100svh" justify="center" align="center">
+            <Flex w="100svw" h="100svh" justify="center" align="center" direction="column" rowGap={10}>
                 <Spinner size="xl" color="brand.500" />
                 <Text fontFamily="prompt" color="gray.500" ml={3}>กำลังค้นหาตำแหน่งปัจจุบันของคุณ</Text>
             </Flex>
