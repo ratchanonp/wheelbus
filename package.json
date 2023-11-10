@@ -13,7 +13,7 @@
     "@chakra-ui/react": "^2.8.1",
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
-    "@fontsource/athiti": "^5.0.8",
+    "@fontsource/prompt": "^5.0.9",
     "@fontsource/sarabun": "^5.0.17",
     "firebase": "^10.5.2",
     "framer-motion": "^10.16.4",

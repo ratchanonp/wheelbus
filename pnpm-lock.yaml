@@ -14,9 +14,9 @@ dependencies:
   '@emotion/styled':
     specifier: ^11.11.0
     version: 11.11.0(@emotion/react@11.11.1)(@types/react@18.2.36)(react@18.2.0)
-  '@fontsource/athiti':
-    specifier: ^5.0.8
-    version: 5.0.8
+  '@fontsource/prompt':
+    specifier: ^5.0.9
+    version: 5.0.9
   '@fontsource/sarabun':
     specifier: ^5.0.17
     version: 5.0.17
@@ -2031,8 +2031,8 @@ packages:
     resolution: {integrity: sha512-+ZplYUN3HOpgCfgInqgdDAbkGGVzES1cs32JJpeqoh87SkRobGXElJx+1GZSaDqzFL+bYiX18qEcBK76mYs8uA==}
     dev: false
 
-  /@fontsource/athiti@5.0.8:
-    resolution: {integrity: sha512-Iv+w7RwElDMnDudjrSdXRupgA4p88cPRkl8NlFeExbtO/vtZBxI1xff/p4hWRY9hR6MXgcAqBrsVMqj7aDoBDQ==}
+  /@fontsource/prompt@5.0.9:
+    resolution: {integrity: sha512-fbqRSdiqANQ2NiIWz5Fpj8xQ1exN9LmhDAaE6lU52InDYPABM2JQF0WObhv8tkwE/WZ4EzNZAGNJYSo5XUqUYA==}
     dev: false
 
   /@fontsource/sarabun@5.0.17:
