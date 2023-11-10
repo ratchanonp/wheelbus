@@ -20,6 +20,9 @@ dependencies:
   '@fontsource/sarabun':
     specifier: ^5.0.17
     version: 5.0.17
+  '@vis.gl/react-google-maps':
+    specifier: ^0.3.2
+    version: 0.3.2(react-dom@18.2.0)(react@18.2.0)
   firebase:
     specifier: ^10.5.2
     version: 10.5.2
@@ -2455,6 +2458,16 @@ packages:
   /@ungap/structured-clone@1.2.0:
     resolution: {integrity: sha512-zuVdFrMJiuCDQUMCzQaD6KL28MjnqqN8XnAqiEq9PNm/hCPTSGfrXCOfwj1ow4LFb/tNymJPwsNbVePc1xFqrQ==}
     dev: true
+
+  /@vis.gl/react-google-maps@0.3.2(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-Fq1s2rfQY9Rk0Re4gMfEyfLlexkEOZQ5eEcTGG1l8cMgkdopGAV1g8+queZ/B6nYiZw2zVm4297X5iujXTvBSA==}
+    peerDependencies:
+      react: '>=16.8.0'
+      react-dom: '>=16.8.0'
+    dependencies:
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
+    dev: false
 
   /@vitejs/plugin-react-swc@3.4.1(vite@4.5.0):
     resolution: {integrity: sha512-7YQOQcVV5x1luD8nkbCDdyYygFvn1hjqJk68UvNAzY2QG4o4N5EwAhLLFNOcd1HrdMwDl0VElP8VutoWf9IvJg==}
