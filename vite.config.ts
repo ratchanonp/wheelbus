@@ -35,6 +35,11 @@ export default defineConfig({
           if (id.includes('@chakra-ui')) {
             return 'chakra-ui';
           }
+
+          // Split every page into a separate chunk splitting by the last `/`
+          if (id.includes('src/pages')) {
+            return 'page-' + id.slice(id.lastIndexOf('/') + 1).toLowerCase();
+          }
         }
       }
     }
