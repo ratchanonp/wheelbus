@@ -12,7 +12,7 @@ const UserConsumner = UserContext.Consumer;
 type ActionType = 'SET_USER' | 'CLEAR_USER'
 type UserAction = { type: ActionType, payload: User | null };
 
-function userReducer(user: User | null, action: UserAction) {
+function userReducer(_: User | null, action: UserAction) {
     switch (action.type) {
         case 'SET_USER':
             return action.payload;
