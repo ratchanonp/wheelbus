@@ -1,30 +1,45 @@
-import { Container } from "@chakra-ui/react";
-import { APIProvider, Map } from "@vis.gl/react-google-maps";
-import { useState } from "react";
+import { Flex, Spinner } from "@chakra-ui/react";
+import { APIProvider, Map, Marker } from "@vis.gl/react-google-maps";
+import { useEffect, useState } from "react";
 
 function SerchPage() {
 
+    const [loading, setLoading] = useState(true);
     const [currentLocation, setCurrentLocation] = useState({ lat: 0, lng: 0 });
 
-    function getCurrentLocation() {
-        navigator.geolocation.getCurrentPosition(function (position) {
-            setCurrentLocation({
-                lat: position.coords.latitude,
-                lng: position.coords.longitude
+    // Get Latitude and Longitude Geolocation
+    const getCurrentLocation = () => {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition((position) => {
+                const { latitude, longitude } = position.coords;
+                setCurrentLocation({ lat: latitude, lng: longitude })
+                setLoading(false);
             });
-        });
+        }
+
+        return null
     }
 
-    getCurrentLocation();
+    useEffect(() => {
+        getCurrentLocation();
+    }, [])
+
+    if (loading) {
+        return (
+            <Flex w="100svw" h="100svh" justify="center" align="center">
+                <Spinner size="xl" color="brand.500" />
+            </Flex>
+        )
+    }
 
     return (
-        <Container maxW="container.sm">
+        <Flex w="100svw" h="100svh">
             <APIProvider apiKey={import.meta.env.VITE_GOOGLE_MAPS_API_KEY}>
-                <Map center={currentLocation} zoom={10}>
-
+                <Map center={currentLocation} zoom={16} currentLocation={currentLocation}>
+                    <Marker position={currentLocation} />
                 </Map>
             </APIProvider>
-        </ Container>
+        </Flex>
     )
 }
 
