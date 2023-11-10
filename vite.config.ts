@@ -38,5 +38,11 @@ export default defineConfig({
         }
       }
     }
+  },
+  // https://vitejs.dev/config/#resolve-alias
+  resolve: {
+    alias: {
+      "@": "/src",
+    }
   }
 })
