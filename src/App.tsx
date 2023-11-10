@@ -5,6 +5,8 @@ import { UserDispatchProvider, UserProvider, initialUserState, userReducer } fro
 import { auth } from './firebase/firebase'
 import router from './routes/router'
 
+
+
 function App() {
 
   const [userData, dispatch] = useReducer(userReducer, initialUserState);
