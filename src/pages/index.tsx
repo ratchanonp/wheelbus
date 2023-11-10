@@ -6,7 +6,7 @@ import { Link as RouterLink } from 'react-router-dom';
 function HomePage() {
 
     return (
-        <Container maxW="sm" display="flex" h="100vh" w="100vw" alignItems="center" justifyContent="center" flexDirection="column" py={5}>
+        <Container maxW="sm" display="flex" h="100svh" w="100svw" alignItems="center" justifyContent="center" flexDirection="column" py={5}>
             <Flex flex={1} direction="column" align="center" justify="center">
                 <Image src={logo} alt="WheelBus Logo" />
                 <Heading color="gray" as="h1" size="sm" fontWeight="light"> WheelBus </Heading>
