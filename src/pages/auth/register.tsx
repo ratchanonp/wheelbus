@@ -17,19 +17,19 @@ function RegisterPage() {
 
                 <Flex direction="column" gap={5} w="full">
                     <Input
-                        id="firstname" name="firstname" type="text" placeholder='ชื่อ'
+                        id="firstname" name="firstname" type="text" placeholder='ชื่อ' autoComplete='given-name'
                         w="full" bgColor="brand.100" border="none" px={6} py={7} fontFamily="prompt" _focusVisible={{}}
                     />
                     <Input
-                        id="lastname" name="lastname" type="text" placeholder='นามสกุล'
+                        id="lastname" name="lastname" type="text" placeholder='นามสกุล' autoComplete='family-name'
                         w="full" bgColor="brand.100" border="none" px={6} py={7} fontFamily="prompt" _focusVisible={{}}
                     />
                     <Input
-                        id="email" name="email" type="email" placeholder='อีเมล'
+                        id="email" name="email" type="email" placeholder='อีเมล' autoComplete='email'
                         w="full" bgColor="brand.100" border="none" px={6} py={7} fontFamily="prompt" _focusVisible={{}}
                     />
                     <Input
-                        id="tel" name="tel" type="tel" maxLength={10} placeholder='เบอร์โทร'
+                        id="tel" name="tel" type="tel" maxLength={10} placeholder='เบอร์โทร' autoComplete='tel'
                         w="full" bgColor="brand.100" border="none" px={6} py={7} fontFamily="prompt" _focusVisible={{}}
                     />
                     <Button bgColor="brand.500" color="white" w="full" size="lg" shadow="md">
