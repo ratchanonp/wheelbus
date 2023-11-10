@@ -14,6 +14,12 @@ dependencies:
   '@emotion/styled':
     specifier: ^11.11.0
     version: 11.11.0(@emotion/react@11.11.1)(@types/react@18.2.36)(react@18.2.0)
+  '@fontsource/athiti':
+    specifier: ^5.0.8
+    version: 5.0.8
+  '@fontsource/sarabun':
+    specifier: ^5.0.17
+    version: 5.0.17
   firebase:
     specifier: ^10.5.2
     version: 10.5.2
@@ -2023,6 +2029,14 @@ packages:
 
   /@firebase/webchannel-wrapper@0.10.3:
     resolution: {integrity: sha512-+ZplYUN3HOpgCfgInqgdDAbkGGVzES1cs32JJpeqoh87SkRobGXElJx+1GZSaDqzFL+bYiX18qEcBK76mYs8uA==}
+    dev: false
+
+  /@fontsource/athiti@5.0.8:
+    resolution: {integrity: sha512-Iv+w7RwElDMnDudjrSdXRupgA4p88cPRkl8NlFeExbtO/vtZBxI1xff/p4hWRY9hR6MXgcAqBrsVMqj7aDoBDQ==}
+    dev: false
+
+  /@fontsource/sarabun@5.0.17:
+    resolution: {integrity: sha512-dwaW9Joz4+5rBs+oy6NQL4KnQSrPrGrzHCIM4H9a+6Q16Xu1dfVhbwDjsSu2XomiCGYXqp5k4Alw+X2ncSG7Cg==}
     dev: false
 
   /@grpc/grpc-js@1.9.9:
