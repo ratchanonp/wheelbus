@@ -7,12 +7,8 @@ function SerchPage() {
     const [loading, setLoading] = useState(true);
     const [currentLocation, setCurrentLocation] = useState({ lat: 0, lng: 0 });
 
-
-
     const options: PositionOptions = {
         enableHighAccuracy: true,
-        timeout: 10000,
-        maximumAge: 0
     }
 
     const success = (position: GeolocationPosition) => {
