@@ -3,12 +3,13 @@ import { auth } from '@/firebase/firebase';
 import { Button, Container, Flex, FormControl, Heading, Image, Input, Link, Text, useToast } from "@chakra-ui/react";
 import { AuthError, createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
 import { useRef } from 'react';
-import { Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink, useNavigate } from 'react-router-dom';
 
 
 function RegisterPage() {
 
     const toast = useToast();
+    const navidate = useNavigate();
 
     const firstname = useRef<HTMLInputElement>(null);
     const lastname = useRef<HTMLInputElement>(null);
@@ -33,6 +34,8 @@ function RegisterPage() {
             await updateProfile(user, {
                 displayName: `${data.firstname} ${data.lastname}`
             });
+
+            navidate('/search')
         } catch (error) {
             toast({
                 title: "เกิดข้อผิดพลาด",
