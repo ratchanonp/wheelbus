@@ -57,7 +57,7 @@ function SerchPage() {
                         to="/routesSearch"
                     >
                         <Box w={3} h={3} borderRadius="sm" bgColor="red" />
-                        <Heading flex={1} textAlign="center" color="slate" size="md" fontWeight="medium">ไปที่ไหนดี?</Heading>
+                        <Heading flex={1} textAlign="center" color="slate.500" size="md" fontWeight="medium">ไปที่ไหนดี?</Heading>
                         <Box w={3} h={3} borderRadius="sm" bgColor="transparent" />
                     </Link>
 
