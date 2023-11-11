@@ -1,81 +1,25 @@
 import logo from '@/assets/logo.svg';
+import { MAP_STYLE } from '@/configs/map.config';
+import useCurrentLocation from '@/hooks/useCurrentLocation';
 import { HamburgerIcon, WarningTwoIcon } from '@chakra-ui/icons';
-import { Box, Button, Container, Flex, HStack, Heading, Image, Spinner, Stack, Text } from "@chakra-ui/react";
+import { Box, Button, Container, Flex, HStack, Heading, Image, Link, Spinner, Stack, Text } from "@chakra-ui/react";
 import { APIProvider, Map, Marker } from "@vis.gl/react-google-maps";
-import { useEffect, useState } from "react";
+import { useMemo } from 'react';
+import { Link as RouterLink } from 'react-router-dom';
 
 function SerchPage() {
 
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(false);
-    const [currentLocation, setCurrentLocation] = useState({ lat: 0, lng: 0 });
+    const { location, loading, error } = useCurrentLocation();
+    const { latitude, longitude } = location.coords;
 
-    const options: PositionOptions = {
-        enableHighAccuracy: true,
-    }
+    console.log(location)
 
-    const handleSuccess = (position: GeolocationPosition) => {
-        const { latitude, longitude } = position.coords;
-        setCurrentLocation({ lat: latitude, lng: longitude })
-        setLoading(false);
-    }
-
-    const handleError = () => {
-        setError(true);
-        setLoading(false);
-        console.log('Unable to retrieve your location');
-    }
-
-    useEffect(() => {
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(handleSuccess, handleError, options);
+    const currentLocation: google.maps.LatLngLiteral = useMemo(() => {
+        return {
+            lat: latitude,
+            lng: longitude
         }
-    }, [])
-
-
-    const styles: google.maps.MapTypeStyle[] = [
-        {
-            featureType: "landscape.man_made",
-            stylers: [
-                {
-                    visibility: "off"
-                }
-            ]
-        },
-        {
-            featureType: "poi",
-            elementType: "geometry",
-            stylers: [
-                {
-                    visibility: "simplified"
-                }
-            ]
-        },
-        {
-            featureType: "poi.business",
-            stylers: [
-                {
-                    visibility: "off"
-                }
-            ]
-        },
-        {
-            featureType: "poi.park",
-            elementType: "labels.text",
-            stylers: [
-                {
-                    visibility: "off"
-                }
-            ]
-        }, {
-            featureType: "transit",
-            stylers: [
-                {
-                    visibility: "off"
-                }
-            ]
-        }
-    ]
+    }, [latitude, longitude])
 
     return (
         <Container maxW="container.sm" display="flex" h="100svh" w="100svw" p={0} position="relative" overflow="hidden">
@@ -92,7 +36,7 @@ function SerchPage() {
                             center={currentLocation}
                             zoom={16}
                             disableDefaultUI={true}
-                            styles={styles}
+                            styles={MAP_STYLE}
                         >
                             <Marker position={currentLocation} />
                         </Map>
@@ -113,12 +57,14 @@ function SerchPage() {
 
             <Flex w="100%" position="absolute" bottom={0} px={2.5}>
                 <Stack bgColor="brand.500" w="full" borderTopRadius="2xl" p={4} spacing={5}>
-                    <Flex bgColor="white" color="brand.500" w="full" p={3} borderRadius="lg" shadow="md" alignItems="center"
+                    <Link as={RouterLink}
+                        _hover={{ textDecoration: "none" }} display="flex" bgColor="white" color="brand.500" w="full" p={3} borderRadius="lg" shadow="md" alignItems="center"
+                        to="/routesSearch"
                     >
                         <Box w={3} h={3} borderRadius="sm" bgColor="red" />
                         <Heading flex={1} textAlign="center" color="slate" size="md" fontWeight="medium">ไปที่ไหนดี?</Heading>
                         <Box w={3} h={3} borderRadius="sm" bgColor="transparent" />
-                    </Flex>
+                    </Link>
 
                     <Stack>
                         <Heading color="white" size="sm" fontWeight="medium">สถานที่โปรด</Heading>
