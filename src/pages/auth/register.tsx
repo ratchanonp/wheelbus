@@ -1,11 +1,54 @@
 import logo from '@/assets/logo.svg';
-import { Button, Container, Flex, Heading, Image, Input, Link, Text } from "@chakra-ui/react";
+import { auth } from '@/firebase/firebase';
+import { Button, Container, Flex, FormControl, Heading, Image, Input, Link, Text, useToast } from "@chakra-ui/react";
+import { AuthError, createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
+import { useRef } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 
 
 function RegisterPage() {
+
+    const toast = useToast();
+
+    const firstname = useRef<HTMLInputElement>(null);
+    const lastname = useRef<HTMLInputElement>(null);
+    const email = useRef<HTMLInputElement>(null);
+    const password = useRef<HTMLInputElement>(null);
+
+    const handleRegister = async (e: React.FormEvent<HTMLDivElement>) => {
+        e.preventDefault();
+
+        const data = {
+            firstname: firstname.current?.value ?? '',
+            lastname: lastname.current?.value ?? '',
+            email: email.current?.value ?? '',
+            password: password.current?.value ?? '',
+        }
+
+        try {
+            const result = await createUserWithEmailAndPassword(auth, data.email, data.password)
+            const { user } = result
+
+            // TODO: Set user display name
+            await updateProfile(user, {
+                displayName: `${data.firstname} ${data.lastname}`
+            });
+        } catch (error) {
+            toast({
+                title: "เกิดข้อผิดพลาด",
+                description: (error as AuthError).message,
+                status: "error",
+                duration: 9000,
+                isClosable: true,
+                position: "top"
+            })
+        }
+    }
+
+
     return (
         <Container maxW="container.sm" display="flex" h="100svh" w="100svw" alignItems="center" justifyContent="center" flexDirection="column" py={5}>
+            <div id="recaptcha-container" />
             <Flex h={10} justify="center">
                 <Image src={logo} alt="WheelBus Logo" />
             </Flex>
@@ -15,27 +58,27 @@ function RegisterPage() {
                     <Text fontFamily="prompt" color="gray.500">กรอกข้อมูลด้านล่างเพื่อสมัครใช้งาน</Text>
                 </Flex>
 
-                <Flex direction="column" gap={5} w="full">
+                <FormControl as="form" onSubmit={handleRegister} display="flex" flexDirection="column" gap={5} w="full">
                     <Input
-                        id="firstname" name="firstname" type="text" placeholder='ชื่อ' autoComplete='given-name'
+                        id="firstname" name="firstname" type="text" placeholder='ชื่อ' autoComplete='given-name' ref={firstname}
                         w="full" bgColor="brand.100" border="none" px={6} py={7} fontFamily="prompt" _focusVisible={{}}
                     />
                     <Input
-                        id="lastname" name="lastname" type="text" placeholder='นามสกุล' autoComplete='family-name'
+                        id="lastname" name="lastname" type="text" placeholder='นามสกุล' autoComplete='family-name' ref={lastname}
                         w="full" bgColor="brand.100" border="none" px={6} py={7} fontFamily="prompt" _focusVisible={{}}
                     />
                     <Input
-                        id="email" name="email" type="email" placeholder='อีเมล' autoComplete='email'
+                        id="email" name="email" type="email" placeholder='อีเมล' autoComplete='email' ref={email}
                         w="full" bgColor="brand.100" border="none" px={6} py={7} fontFamily="prompt" _focusVisible={{}}
                     />
                     <Input
-                        id="tel" name="tel" type="tel" maxLength={10} placeholder='เบอร์โทร' autoComplete='tel'
+                        id="password" name="password" type="password" placeholder='รหัสผ่าน' autoComplete='new-password' ref={password}
                         w="full" bgColor="brand.100" border="none" px={6} py={7} fontFamily="prompt" _focusVisible={{}}
                     />
-                    <Button as={RouterLink} bgColor="brand.500" color="white" w="full" size="lg" to="/search" shadow="md">
+                    <Button type="submit" bgColor="brand.500" color="white" w="full" size="lg" shadow="md">
                         ลงทะเบียนใช้งาน
                     </Button>
-                </Flex>
+                </FormControl>
             </Flex>
             <Flex mt={20}>
                 <Text color="gray.500">
