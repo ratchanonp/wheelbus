@@ -38,6 +38,50 @@ function SerchPage() {
         )
     }
 
+    const styles: google.maps.MapTypeStyle[] = [
+        {
+            featureType: "landscape.man_made",
+            stylers: [
+                {
+                    visibility: "off"
+                }
+            ]
+        },
+        {
+            featureType: "poi",
+            elementType: "geometry",
+            stylers: [
+                {
+                    visibility: "simplified"
+                }
+            ]
+        },
+        {
+            featureType: "poi.business",
+            stylers: [
+                {
+                    visibility: "off"
+                }
+            ]
+        },
+        {
+            featureType: "poi.park",
+            elementType: "labels.text",
+            stylers: [
+                {
+                    visibility: "off"
+                }
+            ]
+        }, {
+            featureType: "transit",
+            stylers: [
+                {
+                    visibility: "off"
+                }
+            ]
+        }
+    ]
+
     return (
         <Container maxW="container.sm" display="flex" h="100svh" w="100svw" p={0} position="relative" overflow="hidden">
             <Flex w="full" h="100svh" zIndex={0}>
@@ -46,6 +90,7 @@ function SerchPage() {
                         center={currentLocation}
                         zoom={16}
                         disableDefaultUI={true}
+                        styles={styles}
                     >
                         <Marker position={currentLocation} />
                     </Map>
@@ -57,9 +102,9 @@ function SerchPage() {
                 <Box w={8} h={8} />
             </Flex>
 
-            <Flex w="100%" position="absolute" bottom={0} px={5}>
-                <Stack bgColor="brand.500" w="full" borderTopRadius="2xl" p={6} spacing={5}>
-                    <Flex bgColor="white" color="brand.500" w="full" p={5} borderRadius="lg" shadow="md" alignItems="center"
+            <Flex w="100%" position="absolute" bottom={0} px={2.5}>
+                <Stack bgColor="brand.500" w="full" borderTopRadius="2xl" p={4} spacing={5}>
+                    <Flex bgColor="white" color="brand.500" w="full" p={3} borderRadius="lg" shadow="md" alignItems="center"
                     >
                         <Box w={3} h={3} borderRadius="sm" bgColor="red" />
                         <Heading flex={1} textAlign="center" color="brand.500" size="md" fontWeight="medium">ไปไหนดี</Heading>
@@ -71,13 +116,13 @@ function SerchPage() {
 
                         <HStack>
 
-                            <Button bgColor="white" borderRadius="lg" p={3} w="full">
+                            <Button bgColor="slate" borderRadius="lg" p={3} w="full" leftIcon={<Text>🏠</Text>} shadow="xl">
                                 บ้าน
                             </Button>
-                            <Button bgColor="white" borderRadius="lg" p={3} w="full">
+                            <Button bgColor="slate" borderRadius="lg" p={3} w="full" leftIcon={<Text>💼</Text>} shadow="xl">
                                 ที่ทำงาน
                             </Button>
-                            <Button bgColor="white" borderRadius="lg" p={3} w="full">
+                            <Button bgColor="slate" borderRadius="lg" p={3} w="full" leftIcon={<Text>🏥</Text>} shadow="xl">
                                 โรงพยาบาล
                             </Button>
                         </HStack>
