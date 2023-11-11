@@ -2,16 +2,14 @@ import logo from '@/assets/logo.svg';
 import { UserContext } from '@/contexts/UserContext';
 import { auth } from '@/firebase/firebase';
 import { CloseIcon } from '@chakra-ui/icons';
-import { Button, Divider, DrawerBody, DrawerContent, DrawerFooter, DrawerHeader, DrawerOverlay, Flex, Heading, Icon, IconButton, Image, Link, Stack, Text, useToast } from "@chakra-ui/react";
+import { Button, Divider, Drawer, DrawerBody, DrawerContent, DrawerFooter, DrawerHeader, DrawerOverlay, DrawerProps, Flex, Heading, Icon, IconButton, Image, Link, Stack, Text, useToast } from "@chakra-ui/react";
 import { AuthError, User, sendEmailVerification, sendPasswordResetEmail, signOut } from 'firebase/auth';
 import { useContext } from 'react';
 import { BiSolidUserCircle } from 'react-icons/bi';
 
-interface Props {
-    onClose: () => void
-}
+function SideDrawerContent(props: Omit<DrawerProps, "children">) {
 
-function SideDrawerContent(props: Props) {
+    const { isOpen, onClose } = props;
 
     const { user } = useContext(UserContext);
     const toast = useToast();
@@ -58,7 +56,9 @@ function SideDrawerContent(props: Props) {
     }
 
     return (
-        <>
+
+        <Drawer isOpen={isOpen} onClose={onClose}>
+
             <DrawerOverlay />
             <DrawerContent>
                 <DrawerHeader display="flex" justifyContent="flex-start" alignItems="center">
@@ -103,7 +103,7 @@ function SideDrawerContent(props: Props) {
                     <Button onClick={handleSignOut} bgColor="brand.500" color="white">ออกจากระบบ</Button>
                 </DrawerFooter>
             </DrawerContent>
-        </>
+        </Drawer>
     )
 }
 
