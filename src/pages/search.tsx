@@ -1,8 +1,9 @@
-import TopBar from '@/components/TopBar/TopBar';
+import logo from '@/assets/logo.svg';
+import SideDrawer from '@/components/SideDrawer/SideDrawer';
 import { MAP_STYLE } from '@/configs/map.config';
 import useCurrentLocation from '@/hooks/useCurrentLocation';
-import { WarningTwoIcon } from '@chakra-ui/icons';
-import { Box, Button, Container, Flex, HStack, Heading, Link, Spinner, Stack, Text } from "@chakra-ui/react";
+import { HamburgerIcon, WarningTwoIcon } from '@chakra-ui/icons';
+import { Box, Button, Container, Flex, HStack, Heading, IconButton, Image, Link, Spinner, Stack, Text, useDisclosure } from "@chakra-ui/react";
 import { APIProvider, Map, Marker } from "@vis.gl/react-google-maps";
 import { useMemo } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
@@ -11,6 +12,8 @@ function SerchPage() {
 
     const { location, loading, error } = useCurrentLocation();
     const { latitude, longitude } = location.coords;
+
+    const { isOpen, onOpen, onClose } = useDisclosure();
 
     console.log(location)
 
@@ -23,6 +26,7 @@ function SerchPage() {
 
     return (
         <Container maxW="container.sm" display="flex" h="100svh" w="100svw" p={0} position="relative" overflow="hidden">
+            <SideDrawer isOpen={isOpen} onClose={onClose} />
             <Flex w="full" h="100svh" zIndex={0} justify="center" align="center">
                 {loading && (
                     <Flex direction="column" justify="center" align="center" gap={5}>
@@ -49,7 +53,11 @@ function SerchPage() {
                     </Flex>
                 )}
             </Flex>
-            <TopBar position="absolute" />
+            <Flex h={20} justify="center" alignItems="center" w="100%" p={5} pos="absolute">
+                <IconButton variant="ghost" icon={<HamburgerIcon w={6} h={6} />} aria-label="Open Side Drawer" color="brand.500" onClick={onOpen} />
+                <Image h={12} flex={1} src={logo} alt="WheelBus Logo" />
+                <Box w={6} h={6} />
+            </Flex>
             <Flex w="100%" position="absolute" bottom={0} px={2.5}>
                 <Stack bgColor="brand.500" w="full" borderTopRadius="2xl" p={4} spacing={5}>
                     <Link as={RouterLink}
