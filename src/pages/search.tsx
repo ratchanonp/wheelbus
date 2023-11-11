@@ -51,13 +51,13 @@ function SerchPage() {
                     </Map>
                 </APIProvider>
             </Flex>
-            <Flex h={20} justify="center" alignItems="center" w="100svw" p={5} position="absolute">
+            <Flex h={20} justify="center" alignItems="center" w="100%" p={5} position="absolute">
                 <HamburgerIcon w={8} h={8} color="brand.500" />
                 <Image h={12} flex={1} src={logo} alt="WheelBus Logo" />
                 <Box w={8} h={8} />
             </Flex>
 
-            <Flex w="100svw" position="absolute" bottom={0} px={5}>
+            <Flex w="100%" position="absolute" bottom={0} px={5}>
                 <Stack bgColor="brand.500" w="full" borderTopRadius="2xl" p={6} spacing={5}>
                     <Flex bgColor="white" color="brand.500" w="full" p={5} borderRadius="lg" shadow="md" alignItems="center"
                     >
