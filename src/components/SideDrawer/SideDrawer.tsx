@@ -2,9 +2,9 @@ import logo from '@/assets/logo.svg';
 import { UserContext } from '@/contexts/UserContext';
 import { auth } from '@/firebase/firebase';
 import { CloseIcon } from '@chakra-ui/icons';
-import { Button, Divider, Drawer, DrawerBody, DrawerContent, DrawerFooter, DrawerHeader, DrawerOverlay, DrawerProps, Flex, Heading, Icon, IconButton, Image, Link, Stack, Text, useToast } from "@chakra-ui/react";
+import { Button, Divider, Drawer, DrawerBody, DrawerContent, DrawerFooter, DrawerHeader, DrawerOverlay, DrawerProps, Flex, Heading, Icon, IconButton, Image, Link, Spinner, Stack, Text, useToast } from "@chakra-ui/react";
 import { AuthError, User, sendEmailVerification, sendPasswordResetEmail, signOut } from 'firebase/auth';
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import { BiSolidUserCircle } from 'react-icons/bi';
 
 function SideDrawerContent(props: Omit<DrawerProps, "children">) {
@@ -13,6 +13,8 @@ function SideDrawerContent(props: Omit<DrawerProps, "children">) {
 
     const { user } = useContext(UserContext);
     const toast = useToast();
+
+    const [loading, setLoading] = useState(false);
 
     const { displayName, email, emailVerified } = user as User
     const { firstName, lastName } = displayName ? { firstName: displayName.split(' ')[0], lastName: displayName.split(' ')[1] } : { firstName: '', lastName: '' }
@@ -37,21 +39,43 @@ function SideDrawerContent(props: Omit<DrawerProps, "children">) {
     }
 
     const handleEmailVerification = async () => {
+        setLoading(true);
         if (!user) return
 
         try {
             await sendEmailVerification(user);
+            toast({
+                title: "ส่งลิงก์ยืนยันอีเมลเรียบร้อยแล้ว",
+                description: "กรุณาตรวจสอบอีเมลของคุณ",
+                status: "success",
+                duration: 9000,
+                isClosable: true,
+                position: "top"
+            })
         } catch (error) {
             handleError(error as AuthError);
+        } finally {
+            setLoading(false);
         }
     }
 
     const handlePasswordReset = async () => {
+        setLoading(true);
         if (!email) return
         try {
             await sendPasswordResetEmail(auth, email)
+            toast({
+                title: "ส่งลิงก์เปลี่ยนรหัสผ่านเรียบร้อยแล้ว",
+                description: "กรุณาตรวจสอบอีเมลของคุณ",
+                status: "success",
+                duration: 9000,
+                isClosable: true,
+                position: "top"
+            })
         } catch (error) {
             handleError(error as AuthError);
+        } finally {
+            setLoading(false);
         }
     }
 
@@ -88,12 +112,20 @@ function SideDrawerContent(props: Omit<DrawerProps, "children">) {
                             {!emailVerified && email && (
                                 <Flex w="full" justifyContent="flex-end">
                                     <Text flex={1} color="slate.500">ยืนยันอีเมล</Text>
-                                    <Link flex={1} textAlign="right" color="brand.500" onClick={handleEmailVerification}>ส่งลิงก์ยืนยันอีเมล</Link>
+                                    {loading ? (
+                                        <Spinner color="brand.500" />
+                                    ) : (
+                                        <Link flex={1} textAlign="right" color="brand.500" onClick={handleEmailVerification}>ส่งลิงก์ยืนยันอีเมล</Link>
+                                    )}
                                 </Flex>
                             )}
                             <Flex w="full" justifyContent="flex-end">
                                 <Text color="slate.500">รหัสผ่าน</Text>
-                                <Link flex={1} textAlign="right" color="brand.500" onClick={handlePasswordReset}>เปลี่ยนรหัสผ่าน</Link>
+                                {loading ? (
+                                    <Spinner color="brand.500" />
+                                ) : (
+                                    <Link flex={1} textAlign="right" color="brand.500" onClick={handlePasswordReset}>เปลี่ยนรหัสผ่าน</Link>
+                                )}
                             </Flex>
                         </Stack>
                     </Stack>
