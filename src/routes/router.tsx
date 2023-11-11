@@ -1,3 +1,4 @@
+import ProtectedRoute from "@/components/ProtectedRoute/ProtectedRoute";
 import HomePage from "@/pages";
 import LoginPage from "@/pages/auth/login";
 import RegisterPage from "@/pages/auth/register";
@@ -20,7 +21,7 @@ const router = createBrowserRouter([
     },
     {
         path: "/search",
-        element: <SerchPage />,
+        element: <ProtectedRoute><SerchPage /></ProtectedRoute>,
     },
     {
         path: "/routesSearch",
