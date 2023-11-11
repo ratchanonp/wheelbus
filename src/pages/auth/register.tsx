@@ -64,7 +64,6 @@ function RegisterPage() {
 
     return (
         <Container maxW="container.sm" display="flex" h="100svh" w="100svw" alignItems="center" justifyContent="center" flexDirection="column" py={5}>
-            <div id="recaptcha-container" />
             <Flex h={10} justify="center">
                 <Image src={logo} alt="WheelBus Logo" />
             </Flex>
