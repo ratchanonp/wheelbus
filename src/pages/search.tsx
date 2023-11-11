@@ -116,13 +116,13 @@ function SerchPage() {
 
                         <HStack>
 
-                            <Button bgColor="slate" borderRadius="lg" p={3} w="full" leftIcon={<Text>🏠</Text>} shadow="xl">
+                            <Button color="slate" borderRadius="lg" p={3} leftIcon={<Text>🏠</Text>} shadow="xl">
                                 บ้าน
                             </Button>
-                            <Button bgColor="slate" borderRadius="lg" p={3} w="full" leftIcon={<Text>💼</Text>} shadow="xl">
+                            <Button color="slate" borderRadius="lg" p={3} leftIcon={<Text>💼</Text>} shadow="xl">
                                 ที่ทำงาน
                             </Button>
-                            <Button bgColor="slate" borderRadius="lg" p={3} w="full" leftIcon={<Text>🏥</Text>} shadow="xl">
+                            <Button color="slate" borderRadius="lg" p={3} leftIcon={<Text>🏥</Text>} shadow="xl">
                                 โรงพยาบาล
                             </Button>
                         </HStack>
