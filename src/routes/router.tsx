@@ -1,6 +1,7 @@
 import HomePage from "@/pages";
 import LoginPage from "@/pages/auth/login";
 import RegisterPage from "@/pages/auth/register";
+import RouteSearchPage from "@/pages/routes";
 import SerchPage from "@/pages/search";
 import { createBrowserRouter } from "react-router-dom";
 
@@ -20,6 +21,10 @@ const router = createBrowserRouter([
     {
         path: "/search",
         element: <SerchPage />,
+    },
+    {
+        path: "/routesSearch",
+        element: <RouteSearchPage />
     }
 ])
 
