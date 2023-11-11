@@ -4,7 +4,7 @@ import { Link as RouterLink } from 'react-router-dom';
 
 function LoginPage() {
     return (
-        <Container maxW="sm" display="flex" h="100svh" w="100svw" alignItems="center" justifyContent="center" flexDirection="column" py={5}>
+        <Container maxW="container.sm" display="flex" h="100svh" w="100svw" alignItems="center" justifyContent="center" flexDirection="column" py={5}>
             <Flex h={10} justify="center">
                 <Image src={logo} alt="WheelBus Logo" />
             </Flex>
