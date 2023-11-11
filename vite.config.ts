@@ -1,11 +1,10 @@
 import react from '@vitejs/plugin-react-swc';
-import { defineConfig, splitVendorChunkPlugin } from 'vite';
+import { defineConfig } from 'vite';
 
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
     react(),
-    splitVendorChunkPlugin()
   ],
   server: {
     watch: {
@@ -16,11 +15,6 @@ export default defineConfig({
     rollupOptions: {
       output: {
         manualChunks(id: string) {
-          // React
-          if (id.includes('react')) {
-            return 'react';
-          }
-
           // React Router
           if (id.includes('react-router')) {
             return 'react-router';
@@ -31,11 +25,15 @@ export default defineConfig({
             return 'firebase';
           }
 
-          // This cause an error Uncaught TypeError: Cannot read properties of undefined (reading 'isElement') after build
-          // // Chakra UI
-          // if (id.includes('@chakra-ui')) {
-          //   return 'chakra-ui';
-          // }
+          // React
+          if (id.includes('react')) {
+            return 'react';
+          }
+
+          // Chakra UI
+          if (id.includes('@chakra-ui')) {
+            return 'chakra-ui';
+          }
 
           // Split every page into a separate chunk splitting by the last `/`
           if (id.includes('src/pages')) {
