@@ -5,6 +5,9 @@ const theme = extendTheme({
         brand: {
             100: "#DFFFEE",
             500: "#2BC875",
+        },
+        slate: {
+            500: "#64748b",
         }
     },
     fonts: {
