@@ -9,7 +9,7 @@ import { Link as RouterLink, useNavigate } from 'react-router-dom';
 function RegisterPage() {
 
     const toast = useToast();
-    const navidate = useNavigate();
+    const navigate = useNavigate();
 
     const firstname = useRef<HTMLInputElement>(null);
     const lastname = useRef<HTMLInputElement>(null);
@@ -48,7 +48,7 @@ function RegisterPage() {
                 displayName: `${data.firstname} ${data.lastname}`
             });
 
-            navidate('/search')
+            navigate('/search')
         } catch (error) {
             toast({
                 title: "เกิดข้อผิดพลาด",
