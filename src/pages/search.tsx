@@ -1,5 +1,5 @@
 import logo from '@/assets/logo.svg';
-import { HamburgerIcon } from '@chakra-ui/icons';
+import { HamburgerIcon, WarningTwoIcon } from '@chakra-ui/icons';
 import { Box, Button, Container, Flex, HStack, Heading, Image, Spinner, Stack, Text } from "@chakra-ui/react";
 import { APIProvider, Map, Marker } from "@vis.gl/react-google-maps";
 import { useEffect, useState } from "react";
@@ -7,36 +7,31 @@ import { useEffect, useState } from "react";
 function SerchPage() {
 
     const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(false);
     const [currentLocation, setCurrentLocation] = useState({ lat: 0, lng: 0 });
 
     const options: PositionOptions = {
         enableHighAccuracy: true,
     }
 
-    const success = (position: GeolocationPosition) => {
+    const handleSuccess = (position: GeolocationPosition) => {
         const { latitude, longitude } = position.coords;
         setCurrentLocation({ lat: latitude, lng: longitude })
         setLoading(false);
     }
 
-    const error = () => {
-        alert('Unable to retrieve your location');
+    const handleError = () => {
+        setError(true);
+        setLoading(false);
+        console.log('Unable to retrieve your location');
     }
 
     useEffect(() => {
         if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(success, error, options);
+            navigator.geolocation.getCurrentPosition(handleSuccess, handleError, options);
         }
     }, [])
 
-    if (loading) {
-        return (
-            <Container maxW="container.sm" display="flex" h="100svh" w="100svw" alignItems="center" justifyContent="center" flexDirection="column" py={5} gap={5}>
-                <Spinner size="xl" color="brand.500" />
-                <Text fontFamily="prompt" color="gray.500" ml={3}>กำลังค้นหาตำแหน่งปัจจุบันของคุณ</Text>
-            </Container>
-        )
-    }
 
     const styles: google.maps.MapTypeStyle[] = [
         {
@@ -84,17 +79,31 @@ function SerchPage() {
 
     return (
         <Container maxW="container.sm" display="flex" h="100svh" w="100svw" p={0} position="relative" overflow="hidden">
-            <Flex w="full" h="100svh" zIndex={0}>
-                <APIProvider apiKey={import.meta.env.VITE_GOOGLE_MAPS_API_KEY}>
-                    <Map
-                        center={currentLocation}
-                        zoom={16}
-                        disableDefaultUI={true}
-                        styles={styles}
-                    >
-                        <Marker position={currentLocation} />
-                    </Map>
-                </APIProvider>
+            <Flex w="full" h="100svh" zIndex={0} justify="center" align="center">
+                {loading && (
+                    <Flex direction="column" justify="center" align="center" gap={5}>
+                        <Spinner size="xl" color="brand.500" />
+                        <Text fontFamily="prompt" color="gray.500" ml={3}>กำลังค้นหาตำแหน่งปัจจุบันของคุณ</Text>
+                    </Flex>
+                )}
+                {!loading && !error && (
+                    <APIProvider apiKey={import.meta.env.VITE_GOOGLE_MAPS_API_KEY}>
+                        <Map
+                            center={currentLocation}
+                            zoom={16}
+                            disableDefaultUI={true}
+                            styles={styles}
+                        >
+                            <Marker position={currentLocation} />
+                        </Map>
+                    </APIProvider>
+                )}
+                {error && (
+                    <Flex direction="column" justify="center" align="center" gap={5}>
+                        <WarningTwoIcon w={10} h={10} color="red.500" />
+                        <Text fontFamily="prompt" color="gray.500" ml={3}>ไม่สามารถค้นหาตำแหน่งปัจจุบันของคุณได้</Text>
+                    </Flex>
+                )}
             </Flex>
             <Flex h={20} justify="center" alignItems="center" w="100%" p={5} position="absolute">
                 <HamburgerIcon w={8} h={8} color="brand.500" />
@@ -107,7 +116,7 @@ function SerchPage() {
                     <Flex bgColor="white" color="brand.500" w="full" p={3} borderRadius="lg" shadow="md" alignItems="center"
                     >
                         <Box w={3} h={3} borderRadius="sm" bgColor="red" />
-                        <Heading flex={1} textAlign="center" color="brand.500" size="md" fontWeight="medium">ไปไหนดี</Heading>
+                        <Heading flex={1} textAlign="center" color="slate" size="md" fontWeight="medium">ไปที่ไหนดี?</Heading>
                         <Box w={3} h={3} borderRadius="sm" bgColor="transparent" />
                     </Flex>
 
@@ -115,14 +124,13 @@ function SerchPage() {
                         <Heading color="white" size="sm" fontWeight="medium">สถานที่โปรด</Heading>
 
                         <HStack>
-
-                            <Button color="slate" borderRadius="lg" p={3} leftIcon={<Text>🏠</Text>} shadow="xl">
+                            <Button textColor="slate.500" bgColor="white" fontFamily="prompt" fontWeight="medium" borderRadius="lg" p={3} leftIcon={<Text>🏠</Text>} shadow="xl">
                                 บ้าน
                             </Button>
-                            <Button color="slate" borderRadius="lg" p={3} leftIcon={<Text>💼</Text>} shadow="xl">
+                            <Button textColor="slate.500" bgColor="white" fontFamily="prompt" fontWeight="medium" borderRadius="lg" p={3} leftIcon={<Text>💼</Text>} shadow="xl">
                                 ที่ทำงาน
                             </Button>
-                            <Button color="slate" borderRadius="lg" p={3} leftIcon={<Text>🏥</Text>} shadow="xl">
+                            <Button textColor="slate.500" bgColor="white" fontFamily="prompt" fontWeight="medium" borderRadius="lg" p={3} leftIcon={<Text>🏥</Text>} shadow="xl">
                                 โรงพยาบาล
                             </Button>
                         </HStack>
