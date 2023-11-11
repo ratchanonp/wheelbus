@@ -31,10 +31,11 @@ export default defineConfig({
             return 'firebase';
           }
 
-          // Chakra UI
-          if (id.includes('@chakra-ui')) {
-            return 'chakra-ui';
-          }
+          // This cause an error Uncaught TypeError: Cannot read properties of undefined (reading 'isElement') after build
+          // // Chakra UI
+          // if (id.includes('@chakra-ui')) {
+          //   return 'chakra-ui';
+          // }
 
           // Split every page into a separate chunk splitting by the last `/`
           if (id.includes('src/pages')) {
