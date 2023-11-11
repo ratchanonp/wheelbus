@@ -1,5 +1,5 @@
 import logo from '@/assets/logo.svg';
-import SideDrawer from '@/components/SideDrawer/SideDrawer';
+import SideDrawerContent from '@/components/SideDrawer/SideDrawer';
 import { MAP_STYLE } from '@/configs/map.config';
 import useCurrentLocation from '@/hooks/useCurrentLocation';
 import { HamburgerIcon, WarningTwoIcon } from '@chakra-ui/icons';
@@ -26,7 +26,7 @@ function SerchPage() {
 
     return (
         <Container maxW="container.sm" display="flex" h="100svh" w="100svw" p={0} position="relative" overflow="hidden">
-            <SideDrawer isOpen={isOpen} onClose={onClose} />
+            <SideDrawerContent onClose={onClose} isOpen={isOpen} />
             <Flex w="full" h="100svh" zIndex={0} justify="center" align="center">
                 {loading && (
                     <Flex direction="column" justify="center" align="center" gap={5}>
