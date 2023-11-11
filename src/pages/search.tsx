@@ -1,8 +1,8 @@
-import logo from '@/assets/logo.svg';
+import TopBar from '@/components/TopBar/TopBar';
 import { MAP_STYLE } from '@/configs/map.config';
 import useCurrentLocation from '@/hooks/useCurrentLocation';
-import { HamburgerIcon, WarningTwoIcon } from '@chakra-ui/icons';
-import { Box, Button, Container, Flex, HStack, Heading, Image, Link, Spinner, Stack, Text } from "@chakra-ui/react";
+import { WarningTwoIcon } from '@chakra-ui/icons';
+import { Box, Button, Container, Flex, HStack, Heading, Link, Spinner, Stack, Text } from "@chakra-ui/react";
 import { APIProvider, Map, Marker } from "@vis.gl/react-google-maps";
 import { useMemo } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
@@ -49,12 +49,7 @@ function SerchPage() {
                     </Flex>
                 )}
             </Flex>
-            <Flex h={20} justify="center" alignItems="center" w="100%" p={5} position="absolute">
-                <HamburgerIcon w={8} h={8} color="brand.500" />
-                <Image h={12} flex={1} src={logo} alt="WheelBus Logo" />
-                <Box w={8} h={8} />
-            </Flex>
-
+            <TopBar position="absolute" />
             <Flex w="100%" position="absolute" bottom={0} px={2.5}>
                 <Stack bgColor="brand.500" w="full" borderTopRadius="2xl" p={4} spacing={5}>
                     <Link as={RouterLink}
