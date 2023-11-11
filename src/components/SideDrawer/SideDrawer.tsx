@@ -57,8 +57,7 @@ function SideDrawerContent(props: Omit<DrawerProps, "children">) {
 
     return (
 
-        <Drawer isOpen={isOpen} onClose={onClose}>
-
+        <Drawer isOpen={isOpen} onClose={onClose} placement='left'>
             <DrawerOverlay />
             <DrawerContent>
                 <DrawerHeader display="flex" justifyContent="flex-start" alignItems="center">
