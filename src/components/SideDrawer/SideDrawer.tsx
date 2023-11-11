@@ -2,12 +2,16 @@ import logo from '@/assets/logo.svg';
 import { UserContext } from '@/contexts/UserContext';
 import { auth } from '@/firebase/firebase';
 import { CloseIcon } from '@chakra-ui/icons';
-import { Button, Divider, Drawer, DrawerBody, DrawerContent, DrawerFooter, DrawerHeader, DrawerOverlay, DrawerProps, Flex, Heading, Icon, IconButton, Image, Link, Stack, Text, useToast } from "@chakra-ui/react";
+import { Button, Divider, DrawerBody, DrawerContent, DrawerFooter, DrawerHeader, DrawerOverlay, Flex, Heading, Icon, IconButton, Image, Link, Stack, Text, useToast } from "@chakra-ui/react";
 import { AuthError, User, sendEmailVerification, sendPasswordResetEmail, signOut } from 'firebase/auth';
 import { useContext } from 'react';
 import { BiSolidUserCircle } from 'react-icons/bi';
 
-function SideDrawer(props: Omit<DrawerProps, 'children'>) {
+interface Props {
+    onClose: () => void
+}
+
+function SideDrawerContent(props: Props) {
 
     const { user } = useContext(UserContext);
     const toast = useToast();
@@ -54,9 +58,9 @@ function SideDrawer(props: Omit<DrawerProps, 'children'>) {
     }
 
     return (
-        <Drawer {...props} placement="left" size="xs">
+        <>
             <DrawerOverlay />
-            <DrawerContent overflow="auto">
+            <DrawerContent>
                 <DrawerHeader display="flex" justifyContent="flex-start" alignItems="center">
                     <Flex flex={1}>
                         <Image h={12} src={logo} alt="WheelBus Logo" />
@@ -99,8 +103,8 @@ function SideDrawer(props: Omit<DrawerProps, 'children'>) {
                     <Button onClick={handleSignOut} bgColor="brand.500" color="white">ออกจากระบบ</Button>
                 </DrawerFooter>
             </DrawerContent>
-        </Drawer>
+        </>
     )
 }
 
-export default SideDrawer
+export default SideDrawerContent
