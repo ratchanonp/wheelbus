@@ -2,7 +2,7 @@ import { db } from "@/firebase/firebase";
 import { Stop } from "@/interfaces/stop.interface";
 import { collection, getDocs } from "firebase/firestore";
 
-const stopCollection = collection(db, "stops");
+const stopCollection = collection(db, "stop");
 
 /**
  * Get all stops from firestore
@@ -16,7 +16,10 @@ async function getStops(): Promise<Stop[]> {
     const stops: Stop[] = [];
 
     querySnapshot.forEach((doc) => {
-        stops.push(doc.data() as Stop);
+        stops.push({
+            id: doc.id,
+            ...doc.data()
+        } as Stop);
     });
 
     return stops;
@@ -33,6 +36,7 @@ async function getStopById(id: string): Promise<Stop> {
     const querySnapshot = await getDocs(stopCollection);
 
     let stop: Stop = {
+        id: "",
         lat: 0,
         lng: 0,
         name: ""
@@ -40,7 +44,10 @@ async function getStopById(id: string): Promise<Stop> {
 
     querySnapshot.forEach((doc) => {
         if (doc.id === id) {
-            stop = doc.data() as Stop;
+            stop = {
+                id: doc.id,
+                ...doc.data()
+            } as Stop;
         }
     });
 
