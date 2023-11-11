@@ -1,8 +1,14 @@
 import { User } from "firebase/auth";
 import { createContext } from "react";
 
-const initialUserState: User | null = null;
-const UserContext = createContext<User | null>(initialUserState);
+
+interface UserState {
+    isloading: boolean;
+    user: User | null;
+}
+
+const initialUserState: UserState = { isloading: true, user: null };
+const UserContext = createContext<UserState>(initialUserState);
 
 
 const UserProvider = UserContext.Provider;
@@ -10,14 +16,17 @@ const UserConsumner = UserContext.Consumer;
 
 
 type ActionType = 'SET_USER' | 'CLEAR_USER'
-type UserAction = { type: ActionType, payload: User | null };
+interface UserAction {
+    type: ActionType
+    payload: User | null
+}
 
-function userReducer(_: User | null, action: UserAction) {
+function userReducer(_: UserState | null, action: UserAction) {
     switch (action.type) {
         case 'SET_USER':
-            return action.payload;
+            return { isloading: false, user: action.payload };
         case 'CLEAR_USER':
-            return null;
+            return { isloading: false, user: null };
         default:
             throw new Error();
     }
