@@ -49,6 +49,9 @@ dependencies:
     version: 6.18.0(react-dom@18.2.0)(react@18.2.0)
 
 devDependencies:
+  '@types/google.maps':
+    specifier: ^3.54.7
+    version: 3.54.7
   '@types/react':
     specifier: ^18.2.15
     version: 18.2.36
@@ -2295,6 +2298,10 @@ packages:
 
   /@swc/types@0.1.5:
     resolution: {integrity: sha512-myfUej5naTBWnqOCc/MdVOLVjXUXtIA+NpDrDBKJtLLg2shUjBu3cZmB/85RyitKc55+lUUyl7oRfLOvkr2hsw==}
+    dev: true
+
+  /@types/google.maps@3.54.7:
+    resolution: {integrity: sha512-L4OlEOw7GMdPJb5/eVXH7ZRBILPFaGbthRSOJtnnmDVEBV3Z8Y631whvAuahJyjpld460TuachEftDPXuqSD9A==}
     dev: true
 
   /@types/json-schema@7.0.14:
