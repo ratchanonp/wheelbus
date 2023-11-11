@@ -1,6 +1,7 @@
 import { Box, Circle, Divider, Flex, Heading, Icon, IconButton, Input, InputGroup, InputLeftAddon, Link, Stack, Text } from "@chakra-ui/react";
 import { FaArrowLeft } from "react-icons/fa";
 import { MdSwapVert } from "react-icons/md";
+import { Link as RouterLink } from "react-router-dom";
 
 const RouteSearchPage = () => {
 
@@ -15,6 +16,8 @@ const RouteSearchPage = () => {
                             w={4}
                             h={4}
                         />}
+                        as={RouterLink}
+                        to="/search"
                         aria-label="back"
                         size="sm"
                         variant="ghost"
