@@ -112,7 +112,7 @@ function SideDrawerContent(props: Omit<DrawerProps, "children">) {
                             {!emailVerified && email && (
                                 <Flex w="full" justifyContent="flex-end">
                                     <Text flex={1} color="slate.500">ยืนยันอีเมล</Text>
-                                    {loading ? (
+                                    {!loading ? (
                                         <Spinner color="brand.500" />
                                     ) : (
                                         <Link flex={1} textAlign="right" color="brand.500" onClick={handleEmailVerification}>ส่งลิงก์ยืนยันอีเมล</Link>
@@ -120,7 +120,7 @@ function SideDrawerContent(props: Omit<DrawerProps, "children">) {
                                 </Flex>
                             )}
                             <Flex w="full" justifyContent="flex-end">
-                                <Text color="slate.500">รหัสผ่าน</Text>
+                                <Text flex={1} color="slate.500">รหัสผ่าน</Text>
                                 {loading ? (
                                     <Spinner color="brand.500" />
                                 ) : (
