@@ -8,7 +8,9 @@ const theme = extendTheme({
         },
         slate: {
             500: "#64748b",
-        }
+        },
+        origin: "#3b82f6",
+        destination: "#ef4444"
     },
     fonts: {
         heading: `'Prompt', sans-serif`,
