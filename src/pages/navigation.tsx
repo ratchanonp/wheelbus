@@ -99,7 +99,7 @@ const NavigationPage = () => {
                         6 ป้าย
                     </Text>
                 </Flex>
-                <Stack spacing={0} overflowY="scroll">
+                <Stack spacing={0} overflowY="scroll" pb={5}>
                     <Flex border="3px solid" borderColor="origin" p={3} align="center" borderRadius="lg" shadow="md">
                         <Flex w="50px">
                             <StartMarker />
