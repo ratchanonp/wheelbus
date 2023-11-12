@@ -31,7 +31,7 @@ const Direction = (props: DirectionProps) => {
             }
 
             try {
-                await directionsService.route(request, (response, status) => {
+                await directionsService.route(request, (response, _) => {
                     directionsRenderer.setDirections(response)
                     directionsRenderer.setOptions({
                         polylineOptions: {
@@ -48,7 +48,7 @@ const Direction = (props: DirectionProps) => {
         }
 
         getDirection()
-    }, [directionsRenderer, directionsService])
+    }, [destination, directionsRenderer, directionsService, origin])
 
     return (
         <div>Direction</div>
