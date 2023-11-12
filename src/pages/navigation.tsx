@@ -83,7 +83,7 @@ const NavigationPage = () => {
                     </Flex>
                 )}
             </Flex>
-            <Stack p={5} spacing={5} maxH="40svh" >
+            <Stack p={5} pb={0} spacing={5} maxH="40svh" >
                 <Flex align="center" justify="space-between" w="full">
                     <Flex>
                         <Icon
