@@ -14,7 +14,7 @@ const theme = extendTheme({
     },
     fonts: {
         heading: `'Prompt', sans-serif`,
-        body: `'Sarabun', sans-serif`,
+        body: `'Prompt', sans-serif`,
     },
 })
 
