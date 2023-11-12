@@ -2,10 +2,12 @@ import logo from '@/assets/logo.svg';
 import { UserContext } from '@/contexts/UserContext';
 import { auth } from '@/firebase/firebase';
 import { CloseIcon } from '@chakra-ui/icons';
-import { Button, Divider, Drawer, DrawerBody, DrawerContent, DrawerFooter, DrawerHeader, DrawerOverlay, DrawerProps, Flex, Heading, Icon, IconButton, Image, Link, Spinner, Stack, Text, useToast } from "@chakra-ui/react";
+import { Button, Divider, Drawer, DrawerBody, DrawerContent, DrawerFooter, DrawerHeader, DrawerOverlay, DrawerProps, Flex, Heading, Icon, IconButton, Image, Link, List, ListIcon, ListItem, Spinner, Stack, Text, useToast } from "@chakra-ui/react";
 import { AuthError, User, sendEmailVerification, sendPasswordResetEmail, signOut } from 'firebase/auth';
 import { useContext, useState } from 'react';
 import { BiSolidUserCircle } from 'react-icons/bi';
+import { FaStar } from 'react-icons/fa';
+import { Link as RouterLink } from 'react-router-dom';
 
 function SideDrawerContent(props: Omit<DrawerProps, "children">) {
 
@@ -91,42 +93,58 @@ function SideDrawerContent(props: Omit<DrawerProps, "children">) {
                     <IconButton aria-label='close' icon={<CloseIcon />} variant='ghost' color='brand.500' size='lg' onClick={props.onClose} />
                 </DrawerHeader>
                 <DrawerBody>
-                    <Stack spacing={3}>
-                        <Icon as={BiSolidUserCircle} w={16} h={16} color="brand.500" />
-                        <Heading fontWeight="semibold" size="lg" color="brand.500">ข้อมูลสมาชิก</Heading>
-                        <Stack divider={<Divider />} bgColor="brand.100" p={3} borderRadius="lg" w="full" spacing={3} fontFamily="prompt" fontSize="sm">
-                            <Flex w="full" justifyContent="flex-end">
-                                <Text color="slate.500">ชื่อ</Text>
-                                <Text flex={1} textAlign="right">{firstName}</Text>
+                    <Stack divider={<Divider />} spacing={3}>
+                        <Stack spacing={3}>
+                            <Icon as={BiSolidUserCircle} w={16} h={16} color="brand.500" />
+
+                            <Flex align="center">
+                                <Heading fontWeight="semibold" size="lg" color="brand.500">ข้อมูลสมาชิก</Heading>
+                                <Link textDecor="underline" flex={1} textAlign="right" color="gray.400" as={RouterLink} to="/profile/edit">แก้ไขข้อมูล</Link>
                             </Flex>
-                            <Flex w="full" justifyContent="flex-end">
-                                <Text color="slate.500">สกุล</Text>
-                                <Text flex={1} textAlign="right">{lastName}</Text>
-                            </Flex>
-                        </Stack>
-                        <Stack divider={<Divider />} bgColor="brand.100" p={3} borderRadius="lg" w="full" spacing={3} fontFamily="prompt" fontSize="sm">
-                            <Flex w="full" justifyContent="flex-end">
-                                <Text color="slate.500">อีเมล</Text>
-                                <Text flex={1} textAlign="right">{email}</Text>
-                            </Flex>
-                            {!emailVerified && email && (
+                            <Stack divider={<Divider />} bgColor="brand.100" p={3} borderRadius="lg" w="full" spacing={3} fontFamily="prompt" fontSize="sm">
                                 <Flex w="full" justifyContent="flex-end">
-                                    <Text flex={1} color="slate.500">ยืนยันอีเมล</Text>
+                                    <Text color="slate.500">ชื่อ</Text>
+                                    <Text flex={1} textAlign="right">{firstName}</Text>
+                                </Flex>
+                                <Flex w="full" justifyContent="flex-end">
+                                    <Text color="slate.500">สกุล</Text>
+                                    <Text flex={1} textAlign="right">{lastName}</Text>
+                                </Flex>
+                            </Stack>
+                            <Stack divider={<Divider />} bgColor="brand.100" p={3} borderRadius="lg" w="full" spacing={3} fontFamily="prompt" fontSize="sm">
+                                <Flex w="full" justifyContent="flex-end">
+                                    <Text color="slate.500">อีเมล</Text>
+                                    <Text flex={1} textAlign="right">{email}</Text>
+                                </Flex>
+                                {!emailVerified && email && (
+                                    <Flex w="full" justifyContent="flex-end">
+                                        <Text flex={1} color="slate.500">ยืนยันอีเมล</Text>
+                                        {loading ? (
+                                            <Spinner color="brand.500" />
+                                        ) : (
+                                            <Link flex={1} textAlign="right" color="brand.500" onClick={handleEmailVerification}>ส่งลิงก์ยืนยันอีเมล</Link>
+                                        )}
+                                    </Flex>
+                                )}
+                                <Flex w="full" justifyContent="flex-end">
+                                    <Text flex={1} color="slate.500">รหัสผ่าน</Text>
                                     {loading ? (
                                         <Spinner color="brand.500" />
                                     ) : (
-                                        <Link flex={1} textAlign="right" color="brand.500" onClick={handleEmailVerification}>ส่งลิงก์ยืนยันอีเมล</Link>
+                                        <Link flex={1} textAlign="right" color="brand.500" onClick={handlePasswordReset}>เปลี่ยนรหัสผ่าน</Link>
                                     )}
                                 </Flex>
-                            )}
-                            <Flex w="full" justifyContent="flex-end">
-                                <Text flex={1} color="slate.500">รหัสผ่าน</Text>
-                                {loading ? (
-                                    <Spinner color="brand.500" />
-                                ) : (
-                                    <Link flex={1} textAlign="right" color="brand.500" onClick={handlePasswordReset}>เปลี่ยนรหัสผ่าน</Link>
-                                )}
-                            </Flex>
+                            </Stack>
+                        </Stack>
+
+                        <Stack>
+                            <Heading fontWeight="semibold" size="lg" color="brand.500">ตั้งค่า</Heading>
+                            <List spacing={3}>
+                                <ListItem alignItems="center" display="flex">
+                                    <ListIcon as={FaStar} />
+                                    <RouterLink to="/favorites">สถานที่โปรด</RouterLink>
+                                </ListItem>
+                            </List>
                         </Stack>
                     </Stack>
                 </DrawerBody>
