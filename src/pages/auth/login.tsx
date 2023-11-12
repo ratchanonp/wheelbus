@@ -61,6 +61,12 @@ function LoginPage() {
                         เข้าสู่ระบบ
                     </Button>
                 </FormControl>
+                <Text color="gray.500">
+                    ลืมรหัสผ่าน?&nbsp;
+                    <Link as={RouterLink} to="/auth/register" color="brand.500" textDecor="underline">
+                        ตั้งรหัสผ่านใหม่
+                    </Link>
+                </Text>
             </Flex>
             <Flex mt={20}>
                 <Text color="gray.500">
