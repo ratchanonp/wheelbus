@@ -24,15 +24,24 @@ const Direction = (props: DirectionProps) => {
             const request: google.maps.DirectionsRequest = {
                 origin: origin,
                 destination: destination,
-                travelMode: google.maps.TravelMode.DRIVING,
+                travelMode: google.maps.TravelMode.TRANSIT,
                 unitSystem: google.maps.UnitSystem.METRIC,
                 optimizeWaypoints: true,
                 provideRouteAlternatives: false,
+                language: "th",
+                transitOptions: {
+                    modes: [google.maps.TransitMode.BUS],
+                    routingPreference: google.maps.TransitRoutePreference.LESS_WALKING,
+                    
+                }
             }
 
             try {
                 await directionsService.route(request, (response, _) => {
                     directionsRenderer.setDirections(response)
+
+                    console.log(response)
+
                     directionsRenderer.setOptions({
                         polylineOptions: {
                             strokeColor: "#2BC875",
@@ -41,6 +50,9 @@ const Direction = (props: DirectionProps) => {
                         },
                         suppressMarkers: true,
                     })
+
+                    directionsRenderer.setPanel(document.getElementById("directions-panel") as HTMLElement)
+
                 })
             } catch (error) {
                 console.log(error)
@@ -51,7 +63,7 @@ const Direction = (props: DirectionProps) => {
     }, [destination, directionsRenderer, directionsService, origin])
 
     return (
-        <div>Direction</div>
+        <></>
     )
 }
 
