@@ -22,7 +22,7 @@ const FavoritePage = () => {
                     to="/search"
                     aria-label="back"
                     size="sm"
-                    variant="ghost"
+                    variant="none"
                 />
                 <Flex justify="space-between" w="full">
                     <Heading flex={1} as="h1" fontWeight="semibold" size="lg" color="slate">สถานที่โปรด</Heading>
