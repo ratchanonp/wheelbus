@@ -7,7 +7,7 @@ import { MAP_STYLE } from "@/configs/map.config";
 import useCurrentLocation from "@/hooks/useCurrentLocation";
 import { WarningTwoIcon } from "@chakra-ui/icons";
 import { Box, Flex, Heading, Icon, IconButton, Spinner, Stack, Text } from "@chakra-ui/react";
-import { APIProvider, Map } from "@vis.gl/react-google-maps";
+import { Map } from "@vis.gl/react-google-maps";
 import { useMemo } from "react";
 import { BsArrowRight } from "react-icons/bs";
 import { FaArrowLeft, FaBus } from "react-icons/fa";
@@ -62,19 +62,18 @@ const NavigationPage = () => {
                     </Flex>
                 )}
                 {!loading && !error && (
-                    <APIProvider apiKey={import.meta.env.VITE_GOOGLE_MAPS_API_KEY}>
-                        <Map
-                            center={currentLocation}
-                            zoom={16}
-                            disableDefaultUI={true}
-                            styles={MAP_STYLE}
-                            mapId="19388afc054dab84"
-                        >
-                            <Direction origin={origin} destination={destination} />
-                            <CustomMarker position={origin} pin={<StartMarker />} />
-                            <CustomMarker position={destination} pin={<StopMarker />} />
-                        </Map>
-                    </APIProvider>
+                    <Map
+                        center={currentLocation}
+                        zoom={16}
+                        disableDefaultUI={true}
+                        styles={MAP_STYLE}
+                        mapId="19388afc054dab84"
+                    >
+                        <Direction origin={origin} destination={destination} />
+                        <CustomMarker position={origin} pin={<StartMarker />} />
+                        <CustomMarker position={destination} pin={<StopMarker />} />
+
+                    </Map>
                 )}
                 {error && (
                     <Flex direction="column" justify="center" align="center" gap={5} w="full">
@@ -99,7 +98,8 @@ const NavigationPage = () => {
                         6 ป้าย
                     </Text>
                 </Flex>
-                <Stack spacing={0} overflowY="scroll" pb={5}>
+                <div id="directions-panel" style={{ zIndex: 2 }}></div>
+                <Stack spacing={0} overflowY="scroll" pb={5} display="none">
                     <Flex border="3px solid" borderColor="origin" p={3} align="center" borderRadius="lg" shadow="md">
                         <Flex w="50px">
                             <StartMarker />
