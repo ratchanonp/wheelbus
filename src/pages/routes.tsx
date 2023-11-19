@@ -1,5 +1,6 @@
-import { Box, Circle, Divider, Flex, Heading, Icon, IconButton, Input, InputGroup, InputLeftAddon, Link, Stack, Text } from "@chakra-ui/react";
+import { Box, Circle, Divider, Flex, Heading, Icon, IconButton, Input, InputGroup, InputLeftAddon, Link, Stack } from "@chakra-ui/react";
 import { FaArrowLeft } from "react-icons/fa";
+import { FaLocationDot } from "react-icons/fa6";
 import { MdSwapVert } from "react-icons/md";
 import { Link as RouterLink } from "react-router-dom";
 
@@ -56,21 +57,47 @@ const RouteSearchPage = () => {
                     </Flex>
                 </Flex>
             </Stack>
-            <Stack px={3} divider={<Divider />} fontFamily="prompt">
-                <Flex>
-                    <Text>เลือกบนแผนที่</Text>
+            <Stack p={5} spacing={5} fontFamily="prompt">
+                <Flex justify="space-between">
+                    <Heading size="md" fontWeight="semibold">เลือกบนแผนที่</Heading>
+                    <Icon as={FaLocationDot} color="slate" w={4} h={4} />
                 </Flex>
                 <Stack>
-                    <Flex justify="space-between">
-                        <Heading fontSize="xs">ที่โปรด</Heading>
-                        <Link fontSize="xs">ดูทั้งหมด</Link>
+                    <Flex justify="space-between" align="center">
+                        <Heading size="md" fontWeight="semibold">สถานที่โปรด</Heading>
+                        <Link fontSize="sm">ดูทั้งหมด</Link>
                     </Flex>
-                </Stack>
-                <Stack divider={<Divider />}>
-                    <Flex>บ้าน</Flex>
-                    <Flex>ที่ทำงาน</Flex>
-                    <Flex>โรงเรียน</Flex>
-                    <Flex>โรงพยาบาล</Flex>
+                    <Stack spacing={5}>
+                        <Stack divider={<Divider />}>
+                            <Heading size="md" fontWeight="semibold">🏠 บ้าน</Heading>
+                            <Flex justifyContent="space-between" alignItems="center">
+                                <Heading size="sm" fontWeight="medium">กรมปศุสัตว์</Heading>
+
+                            </Flex>
+                            <Flex justifyContent="space-between" alignItems="center">
+                                <Heading size="sm" fontWeight="medium">ครัวกรุงเทพ</Heading>
+
+                            </Flex>
+                        </Stack>
+                        <Stack divider={<Divider />}>
+                            <Heading size="md" fontWeight="semibold">💼 ที่ทำงาน</Heading>
+                            <Flex justifyContent="space-between" alignItems="center">
+                                <Heading size="sm" fontWeight="medium">จุฬา (คณะวิทยาศาสตร์)</Heading>
+
+                            </Flex>
+                        </Stack>
+                        <Stack divider={<Divider />}>
+                            <Heading size="md" fontWeight="semibold">⭐️ ที่โปรด</Heading>
+                            <Flex justifyContent="space-between" alignItems="center">
+                                <Heading size="sm" fontWeight="medium">จตุจักร</Heading>
+
+                            </Flex>
+                            <Flex justifyContent="space-between" alignItems="center">
+                                <Heading size="sm" fontWeight="medium">สามย่านมิตรทาว</Heading>
+
+                            </Flex>
+                        </Stack>
+                    </Stack >
                 </Stack>
             </Stack >
         </Stack >
