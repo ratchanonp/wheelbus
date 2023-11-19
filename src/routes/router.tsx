@@ -6,6 +6,7 @@ import RegisterPage from "@/pages/auth/register";
 import FavoriteAddPage from "@/pages/favorite/add";
 import FavoritePage from "@/pages/favorite/favorite";
 import NavigationPage from "@/pages/navigation";
+import EditProfilePage from "@/pages/profile/edit";
 import RouteSearchPage from "@/pages/routes";
 import SerchPage from "@/pages/search";
 import TestPage from "@/pages/test";
@@ -51,6 +52,10 @@ const router = createBrowserRouter([
     {
         path: "favorites/add",
         element: <ProtectedRoute><FavoriteAddPage /></ProtectedRoute>,
+    },
+    {
+        path: "profile/edit",
+        element: <ProtectedRoute><EditProfilePage /></ProtectedRoute>
     }
 ])
 
