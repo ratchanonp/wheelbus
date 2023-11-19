@@ -1,13 +1,14 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import StartMarker from "@/components/CustomMarker/StartMarker"
+import AddFavoriteDrawer from "@/components/Favorite/AddFavoriteDrawer"
 import useCurrentLocation from "@/hooks/useCurrentLocation"
-import { CloseIcon, WarningTwoIcon } from "@chakra-ui/icons"
-import { Box, Button, Drawer, DrawerBody, DrawerContent, DrawerFooter, DrawerHeader, DrawerOverlay, Flex, Heading, Icon, IconButton, Input, InputGroup, InputLeftElement, Spinner, Stack, Text, useDisclosure } from "@chakra-ui/react"
+import { WarningTwoIcon } from "@chakra-ui/icons"
+import { Box, Button, Divider, Flex, Heading, Icon, IconButton, Input, InputGroup, InputLeftElement, InputRightElement, Spinner, Stack, Text, useDisclosure } from "@chakra-ui/react"
+import { useDebounce } from "@uidotdev/usehooks"
 import { Map, useMapsLibrary } from "@vis.gl/react-google-maps"
 import { MapEvent } from "node_modules/@vis.gl/react-google-maps/dist/components/map/use-map-events"
 import { useEffect, useState } from "react"
-import { FaArrowLeft } from "react-icons/fa"
-import { FaMagnifyingGlass } from "react-icons/fa6"
+import { FaArrowLeft, FaMagnifyingGlass, FaX } from "react-icons/fa6"
 import { Link as RouterLink } from "react-router-dom"
 
 const FavoriteAddPage = () => {
@@ -17,9 +18,13 @@ const FavoriteAddPage = () => {
 
     const [currentLocation, setCurrentLocation] = useState<google.maps.LatLngLiteral>({ lat: latitude, lng: longitude });
     const [address, setAddress] = useState<string>("");
+    const debounceAddress = useDebounce(address, 300);
+    const [loadingAddress, setLoadingAddress] = useState<boolean>(false);
+    const [placeSuggestions, setPlaceSuggestions] = useState<google.maps.places.AutocompletePrediction[]>([]);
     const { isOpen, onOpen, onClose } = useDisclosure();
 
     const geoCodingLibrary = useMapsLibrary('geocoding');
+    const placeLibrary = useMapsLibrary('places');
 
 
     useEffect(() => {
@@ -35,6 +40,42 @@ const FavoriteAddPage = () => {
             setCurrentAddress();
 
     }, [latitude, longitude, loading, error])
+
+    const handlePlaceChanged = async (e: React.ChangeEvent<HTMLInputElement>) => {
+        setAddress(e.target.value);
+    }
+
+    useEffect(() => {
+        const getAddressFromPlace = async () => {
+            if (!placeLibrary) return null;
+
+            if (debounceAddress) {
+                setLoadingAddress(true);
+
+                const prediction = new placeLibrary.AutocompleteService();
+
+                const predictionRequest: google.maps.places.AutocompletionRequest = {
+                    input: debounceAddress,
+                    language: "th",
+                    componentRestrictions: {
+                        country: "th"
+                    }
+                }
+
+                const response = await prediction.getPlacePredictions(predictionRequest);
+
+                if (response) {
+                    setPlaceSuggestions(response.predictions);
+                }
+
+
+
+                setLoadingAddress(false);
+            }
+        }
+
+        getAddressFromPlace();
+    }, [debounceAddress])
 
 
     const handleMapDrag = async (e: MapEvent) => {
@@ -68,6 +109,28 @@ const FavoriteAddPage = () => {
         return null;
     }
 
+    const handleSelectSuggestion = async (placeId: string) => {
+        if (!geoCodingLibrary) return null;
+
+        const geoCoder = new geoCodingLibrary.Geocoder();
+
+        const geoCoderRequest: google.maps.GeocoderRequest = {
+            placeId: placeId,
+            language: "th",
+        }
+
+        const response = await geoCoder.geocode(geoCoderRequest);
+
+        if (response.results.length > 0) {
+            const { lat, lng } = response.results[0].geometry.location.toJSON();
+            setCurrentLocation({ lat, lng })
+            const address = await getAddress({ lat, lng });
+            setAddress(address || "")
+        }
+
+        setPlaceSuggestions([]);
+
+    }
 
 
     return (
@@ -88,12 +151,33 @@ const FavoriteAddPage = () => {
                     variant="none"
                 />
                 <Heading flex={1} as="h1" fontWeight="semibold" size="lg" color="slate">เพิ่มสถานที่โปรด</Heading>
-                <InputGroup>
-                    <InputLeftElement>
-                        <Icon as={FaMagnifyingGlass} color="gray.500" w={4} h={4} />
-                    </InputLeftElement>
-                    <Input type="text" placeholder="ค้นหา/เลือกป้ายบนแผนที่" value={address} onChange={(e) => setAddress(e.target.value)} />
-                </InputGroup>
+                <Box position="relative" w="full">
+
+                    <InputGroup >
+                        <InputLeftElement>
+                            <Icon as={FaMagnifyingGlass} color="gray.500" w={4} h={4} />
+                        </InputLeftElement>
+                        <Input type="text" placeholder="ค้นหา/เลือกป้ายบนแผนที่" value={address} onChange={handlePlaceChanged} />
+                        <InputRightElement>
+                            {loadingAddress ? <Spinner size="sm" color="brand.500" /> : <Icon as={FaX} color="gray.500" w={4} h={4} onClick={() => setAddress("")} />}
+                        </InputRightElement>
+                    </InputGroup>
+
+                    {/* Place Suggestion */}
+                    {
+                        placeSuggestions && placeSuggestions.length > 0 && (
+
+                            <Stack divider={<Divider />} position="absolute" top={10} left={0} right={0} zIndex={1} bgColor="white" shadow="md" borderRadius="md" p={3} mt={2}>
+                                {
+                                    placeSuggestions && placeSuggestions.map((place, index) => (
+                                        <Box key={index} p={2} _hover={{ bgColor: "brand.500", color: "white" }} cursor="pointer" onClick={() => handleSelectSuggestion(place.place_id)}>
+                                            <Text fontFamily="prompt" fontSize="sm">{place.description}</Text>
+                                        </Box>
+                                    ))
+                                }
+                            </Stack>)}
+                </Box>
+
             </Stack>
             <Flex w="full" flex={1} position="relative">
                 {loading && (
@@ -125,32 +209,12 @@ const FavoriteAddPage = () => {
                 )}
             </Flex>
 
-            <Button position="absolute" bgColor="white" w="90svw" bottom={8} size="lg" mx="auto" left={0} right={0} shadow="md" onClick={onOpen}>
+            <Button position="absolute" bgColor="white" w="90svw" bottom={8} size="lg" mx="auto" left={0} right={0} shadow="md" onClick={onOpen} isDisabled={loading || loadingAddress}>
                 เพิ่มสถานที่โปรด
             </Button>
 
             {/* Drawer */}
-            <Drawer
-                isOpen={isOpen}
-                placement="bottom"
-                onClose={onClose}
-            >
-                <DrawerOverlay />
-                <DrawerContent>
-
-                    <DrawerHeader display="flex" alignItems="center" justifyContent="space-between">
-                        <Heading color="slate">เพิ่มสถานที่โปรด</Heading>
-                        <IconButton icon={<CloseIcon />} aria-label="Close Drawer" size="sm" onClick={onClose} />
-                    </DrawerHeader>
-                    <DrawerBody>
-                        <Text>{address}</Text>
-                    </DrawerBody>
-                    <DrawerFooter>
-
-                    </DrawerFooter>
-                </DrawerContent>
-            </Drawer>
-
+            <AddFavoriteDrawer isOpen={isOpen} onClose={onClose} address={address} currentLocation={currentLocation} />
         </Flex >
     )
 }
