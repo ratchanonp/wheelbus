@@ -1,3 +1,4 @@
+import { APIProvider } from '@vis.gl/react-google-maps'
 import { onAuthStateChanged } from 'firebase/auth'
 import { useEffect, useReducer } from 'react'
 import { RouterProvider } from 'react-router-dom'
@@ -20,7 +21,9 @@ function App() {
   return (
     <UserProvider value={userData}>
       <UserDispatchProvider value={dispatch}>
-        <RouterProvider router={router} />
+        <APIProvider apiKey={import.meta.env.VITE_GOOGLE_MAPS_API_KEY}>
+          <RouterProvider router={router} />
+        </APIProvider>
       </UserDispatchProvider>
     </UserProvider>
   )
