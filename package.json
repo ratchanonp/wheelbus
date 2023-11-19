@@ -16,6 +16,7 @@
     "@emotion/styled": "^11.11.0",
     "@fontsource/prompt": "^5.0.9",
     "@fontsource/sarabun": "^5.0.17",
+    "@uidotdev/usehooks": "^2.4.1",
     "@vis.gl/react-google-maps": "^0.3.3",
     "firebase": "^10.6.0",
     "framer-motion": "^10.16.5",
