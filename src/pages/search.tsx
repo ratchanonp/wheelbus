@@ -1,10 +1,11 @@
 import logo from '@/assets/logo.svg';
+import CustomMarker from '@/components/CustomMarker/CustomMarker';
+import StartMarker from '@/components/CustomMarker/StartMarker';
 import SideDrawerContent from '@/components/SideDrawer/SideDrawer';
-import { MAP_STYLE } from '@/configs/map.config';
 import useCurrentLocation from '@/hooks/useCurrentLocation';
 import { HamburgerIcon, WarningTwoIcon } from '@chakra-ui/icons';
 import { Box, Button, Container, Flex, HStack, Heading, IconButton, Image, Link, Spinner, Stack, Text, useDisclosure } from "@chakra-ui/react";
-import { APIProvider, Map, Marker } from "@vis.gl/react-google-maps";
+import { Map } from "@vis.gl/react-google-maps";
 import { useMemo } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 
@@ -35,16 +36,14 @@ function SerchPage() {
                     </Flex>
                 )}
                 {!loading && !error && (
-                    <APIProvider apiKey={import.meta.env.VITE_GOOGLE_MAPS_API_KEY}>
-                        <Map
-                            center={currentLocation}
-                            zoom={16}
-                            disableDefaultUI={true}
-                            styles={MAP_STYLE}
-                        >
-                            <Marker position={currentLocation} />
-                        </Map>
-                    </APIProvider>
+                    <Map
+                        center={currentLocation}
+                        zoom={16}
+                        disableDefaultUI={true}
+                        mapId="19388afc054dab84"
+                    >
+                        <CustomMarker position={currentLocation} pin={<StartMarker />} />
+                    </Map>
                 )}
                 {error && (
                     <Flex direction="column" justify="center" align="center" gap={5}>
