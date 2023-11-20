@@ -9,7 +9,7 @@ const getFavoritePlaces = async () => {
     const currentUserID = auth.currentUser.uid;
 
     const favoriteCollection = collection(db, "favorites");
-    const q = query(favoriteCollection, where("userID", "==", currentUserID));
+    const q = query(favoriteCollection, where("authorId", "==", currentUserID));
     const querySnapshot = await getDocs(q);
 
     const favorites: FavoritePlace[] = [];
@@ -36,7 +36,7 @@ const addFavoritePlace = async (favorite: FavoritePlaceInput) => {
     const favoriteCollection = collection(db, "favorites");
     const docRef = await addDoc(favoriteCollection, {
         ...favorite,
-        userID: currentUserID
+        authorId: currentUserID
     });
 
     return docRef.id;

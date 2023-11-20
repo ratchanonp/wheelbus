@@ -5,6 +5,7 @@ export interface FavoritePlace {
     name: string;
     category: FavoriteCategory;
     position: google.maps.LatLngLiteral;
+    authorId: string;
 }
 
 export interface FavoritePlaceInput {
