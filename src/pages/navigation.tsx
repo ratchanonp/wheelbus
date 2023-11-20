@@ -1,15 +1,21 @@
 import Direction from "@/components/Direction/Direction";
-import { Box, Flex, Heading, Icon, IconButton } from "@chakra-ui/react";
+import StepDetail from "@/components/Step/List/StepDetail";
+import { DirectionRendererContext } from "@/contexts/RouteContext";
+import { Box, Flex, Heading, Icon, IconButton, Stack } from "@chakra-ui/react";
 import { Map } from "@vis.gl/react-google-maps";
+import { useContext } from "react";
 import { FaArrowLeft } from "react-icons/fa6";
 
 import { Link as RouterLink } from "react-router-dom";
 
 const NavigationPage = () => {
 
+    const directionsRendererOptions = useContext(DirectionRendererContext)
+    const { directions, routeIndex } = directionsRendererOptions;
+
     return (
         <Flex direction="column" h="100svh">
-            < Flex w="full" align="center" p={3} >
+            <Flex w="full" align="center" p={3} >
                 <IconButton
                     icon={<Icon
                         as={FaArrowLeft}
@@ -33,6 +39,16 @@ const NavigationPage = () => {
             >
                 <Direction />
             </Map>
+            <Flex p={5}>
+                <Stack>
+                    <Heading>วิธีการเดินทาง</Heading>
+                    <Stack spacing={5}>
+                        {routeIndex != null && directions?.routes[routeIndex].legs[0].steps.map((step, index) => (
+                            <StepDetail key={index} step={step} />
+                        ))}
+                    </Stack>
+                </Stack>
+            </Flex>
         </Flex >
     )
 }
