@@ -1,4 +1,4 @@
-import StepDetail from "@/components/Step/StepDetail";
+import StepDetail from "@/components/Step/Small/StepDetail";
 import { DirectionRendererContext, DirectionRendererDispatchContext } from "@/contexts/RouteContext";
 import { CLEAR_FOCUSED_INPUT, SearchContext, SearchDispatchContext } from "@/contexts/SearchContext";
 import useGetDirection from "@/hooks/useGetDirection";
