@@ -10,7 +10,8 @@ interface Props extends Omit<DrawerProps, "children"> {
     currentLocation: {
         lat: number;
         lng: number;
-    }
+    };
+    placeId: string;
 }
 
 const AddFavoriteDrawer = (props: Props) => {
@@ -30,10 +31,7 @@ const AddFavoriteDrawer = (props: Props) => {
         const favoritePlace: FavoritePlaceInput = {
             name: formData.get("name") as string,
             category: formData.get("category") as FavoriteCategory,
-            position: {
-                lat: parseFloat(formData.get("lat") as string),
-                lng: parseFloat(formData.get("lng") as string)
-            }
+            placeId: formData.get("placeId") as string,
         }
 
         const response = await addFavoritePlace(favoritePlace);
@@ -80,6 +78,7 @@ const AddFavoriteDrawer = (props: Props) => {
                             </FormControl>
                             <input type="hidden" name="lat" id="lat" value={lat} />
                             <input type="hidden" name="lng" id="lng" value={lng} />
+                            <input type="hidden" name="placeId" id="placeId" value={props.placeId} />
                         </Stack>
                     </form>
                 </DrawerBody>
