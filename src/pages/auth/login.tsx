@@ -63,7 +63,7 @@ function LoginPage() {
                 </FormControl>
                 <Text color="gray.500">
                     ลืมรหัสผ่าน?&nbsp;
-                    <Link as={RouterLink} to="/auth/register" color="brand.500" textDecor="underline">
+                    <Link as={RouterLink} to="/auth/forgot-password" color="brand.500" textDecor="underline">
                         ตั้งรหัสผ่านใหม่
                     </Link>
                 </Text>
