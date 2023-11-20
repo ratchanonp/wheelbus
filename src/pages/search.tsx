@@ -4,7 +4,7 @@ import StartMarker from '@/components/CustomMarker/StartMarker';
 import SideDrawerContent from '@/components/SideDrawer/SideDrawer';
 import useCurrentLocation from '@/hooks/useCurrentLocation';
 import { HamburgerIcon, WarningTwoIcon } from '@chakra-ui/icons';
-import { Box, Button, Container, Flex, HStack, Heading, IconButton, Image, Link, Spinner, Stack, Text, useDisclosure } from "@chakra-ui/react";
+import { Box, Container, Flex, Heading, IconButton, Image, Link, Spinner, Stack, Text, useDisclosure } from "@chakra-ui/react";
 import { Map } from "@vis.gl/react-google-maps";
 import { useMemo } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
@@ -67,22 +67,6 @@ function SerchPage() {
                         <Heading flex={1} textAlign="center" color="slate.500" size="md" fontWeight="medium">ไปที่ไหนดี?</Heading>
                         <Box w={3} h={3} borderRadius="sm" bgColor="transparent" />
                     </Link>
-
-                    <Stack>
-                        <Heading color="white" size="sm" fontWeight="medium">สถานที่โปรด</Heading>
-
-                        <HStack>
-                            <Button textColor="slate.500" bgColor="white" fontFamily="prompt" fontWeight="medium" borderRadius="lg" p={3} leftIcon={<Text>🏠</Text>} shadow="xl">
-                                บ้าน
-                            </Button>
-                            <Button textColor="slate.500" bgColor="white" fontFamily="prompt" fontWeight="medium" borderRadius="lg" p={3} leftIcon={<Text>💼</Text>} shadow="xl">
-                                ที่ทำงาน
-                            </Button>
-                            <Button textColor="slate.500" bgColor="white" fontFamily="prompt" fontWeight="medium" borderRadius="lg" p={3} leftIcon={<Text>🏥</Text>} shadow="xl">
-                                โรงพยาบาล
-                            </Button>
-                        </HStack>
-                    </Stack>
                 </Stack>
             </Flex>
         </Container >
