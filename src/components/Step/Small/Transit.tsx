@@ -14,7 +14,7 @@ const Transit = (props: Props) => {
     return (
         <Flex maxW="200px" gap={1} >
             <Image src={vehicle.icon} w={6} h={6} />
-            <Text minW="100px" maxW="100px" noOfLines={1} overflow="hidden" bgColor={color} color="white" px={2} wordBreak="break-all">
+            <Text maxW="100px" noOfLines={1} overflow="hidden" bgColor={color} color="white" px={2} wordBreak="break-all">
                 {step.transit?.line.name}
             </Text>
         </Flex >
