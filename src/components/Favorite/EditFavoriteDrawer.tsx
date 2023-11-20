@@ -17,8 +17,7 @@ const EditFavoriteDrawer
 
         if (!favoritePlace) return null;
 
-        const { name, category, position, id } = favoritePlace;
-        const { lat, lng } = position;
+        const { name, category, id } = favoritePlace;
 
         const handleAddFavoritePlace = async (e: React.FormEvent<HTMLFormElement>) => {
             e.preventDefault();
@@ -27,13 +26,9 @@ const EditFavoriteDrawer
 
             const formData = new FormData(form);
 
-            const favoritePlace: FavoritePlaceInput = {
+            const favoritePlace: Partial<FavoritePlaceInput> = {
                 name: formData.get("name") as string,
                 category: formData.get("category") as FavoriteCategory,
-                position: {
-                    lat: parseFloat(formData.get("lat") as string),
-                    lng: parseFloat(formData.get("lng") as string)
-                }
             }
 
             try {
@@ -75,8 +70,6 @@ const EditFavoriteDrawer
                                         </Stack>
                                     </RadioGroup>
                                 </FormControl>
-                                <input type="hidden" name="lat" id="lat" value={lat} />
-                                <input type="hidden" name="lng" id="lng" value={lng} />
                             </Stack>
                         </form>
                     </DrawerBody>
