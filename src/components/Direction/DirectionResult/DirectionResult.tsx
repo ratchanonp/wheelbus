@@ -1,6 +1,6 @@
 import StepDetail from "@/components/Step/StepDetail";
 import { DirectionRendererContext, DirectionRendererDispatchContext } from "@/contexts/RouteContext";
-import { SearchContext } from "@/contexts/SearchContext";
+import { CLEAR_FOCUSED_INPUT, SearchContext, SearchDispatchContext } from "@/contexts/SearchContext";
 import useGetDirection from "@/hooks/useGetDirection";
 import { Divider, Flex, Icon, Stack, Text } from "@chakra-ui/react";
 import { useContext, useEffect } from "react";
@@ -13,6 +13,7 @@ const DirectionResult = () => {
     const directionRenderer = useContext(DirectionRendererContext);
 
     const search = useContext(SearchContext);
+    const searchDispatch = useContext(SearchDispatchContext);
 
     const { fromPlaceId, toPlaceId } = search;
 
@@ -52,6 +53,9 @@ const DirectionResult = () => {
                 payload: option
             })
 
+            searchDispatch({ type: CLEAR_FOCUSED_INPUT })
+
+
             console.log("directionRenderer", directionRenderer);
         }
     }, [direction])
@@ -60,7 +64,7 @@ const DirectionResult = () => {
 
     return (
         <Stack px={3} divider={<Divider />} spacing={3}>
-            {direction?.routes.map((route, index) => {
+            {directionRenderer.directions?.routes.map((route, index) => {
                 const { legs } = route;
                 const data = legs[0];
 
