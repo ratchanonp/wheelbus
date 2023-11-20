@@ -24,7 +24,7 @@ const Direction = () => {
         if (!directionsRendererOptions) return;
         if (!directionsRendererOptions.directions) return;
         directionsRenderer?.setDirections(directionsRendererOptions.directions);
-    }, [directionsRendererOptions, directionsRenderer, directionsService]);
+    }, [directionsRendererOptions]);
 
     return (
         <></>
