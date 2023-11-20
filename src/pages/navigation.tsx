@@ -39,7 +39,7 @@ const NavigationPage = () => {
             >
                 <Direction />
             </Map>
-            <Flex p={5}>
+            <Flex p={5} maxH="40svh" overflow="scroll">
                 <Stack>
                     <Heading>วิธีการเดินทาง</Heading>
                     <Stack spacing={5}>

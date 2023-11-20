@@ -13,11 +13,10 @@ const Walking = (props: Props) => {
     return (
         <Flex align="center" gap={5}>
             <Flex>
-                <Icon w={6} h={6} as={FaWalking} />
+                <Icon w={4} h={4} as={FaWalking} />
             </Flex>
             <Flex>
-                <Text fontSize="xs">{instructions} ({distance?.text})</Text>
-                <Text></Text>
+                <Text fontSize="x-small">{instructions} ({distance?.text})</Text>
             </Flex>
         </Flex>
     )
