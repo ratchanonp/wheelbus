@@ -2,6 +2,7 @@
 import StartMarker from "@/components/CustomMarker/StartMarker"
 import AddFavoriteDrawer from "@/components/Favorite/AddFavoriteDrawer"
 import useCurrentLocation from "@/hooks/useCurrentLocation"
+import { PlaceData } from "@/interfaces/favorite.interface"
 import { WarningTwoIcon } from "@chakra-ui/icons"
 import { Box, Button, Divider, Flex, Heading, Icon, IconButton, Input, InputGroup, InputLeftElement, InputRightElement, Spinner, Stack, Text, useDisclosure } from "@chakra-ui/react"
 import { useDebounce } from "@uidotdev/usehooks"
@@ -17,6 +18,7 @@ const FavoriteAddPage = () => {
     const { latitude, longitude } = location.coords;
 
     const [currentLocation, setCurrentLocation] = useState<google.maps.LatLngLiteral>({ lat: latitude, lng: longitude });
+    const [currentPlaceId, setCurrentPlaceId] = useState<string>("");
     const [address, setAddress] = useState<string>("");
     const debounceAddress = useDebounce(address, 300);
     const [loadingAddress, setLoadingAddress] = useState<boolean>(false);
@@ -30,9 +32,13 @@ const FavoriteAddPage = () => {
     useEffect(() => {
         const setCurrentAddress = async () => {
             if (latitude && longitude) {
-                const address = await getAddress({ lat: latitude, lng: longitude });
+                const addressResult = await getAddress({ lat: latitude, lng: longitude });
+
+                if (!addressResult) return null;
+                const { formatted_address, place_id } = addressResult;
                 setCurrentLocation({ lat: latitude, lng: longitude })
-                setAddress(address || "")
+                setAddress(formatted_address || "")
+                setCurrentPlaceId(place_id || "")
             }
         }
 
@@ -86,11 +92,12 @@ const FavoriteAddPage = () => {
             setCurrentLocation({ lat, lng })
             // Get the address of the center of the map
             const address = await getAddress(currentLocation);
-            setAddress(address || "")
+            setAddress(address?.formatted_address || "")
+            setCurrentPlaceId(address?.place_id || "")
         }
     }
 
-    const getAddress = async (location: google.maps.LatLngLiteral): Promise<string | null> => {
+    const getAddress = async (location: google.maps.LatLngLiteral): Promise<PlaceData | null> => {
 
         if (!geoCodingLibrary) return null;
         const geoCoder = new geoCodingLibrary.Geocoder();
@@ -102,8 +109,13 @@ const FavoriteAddPage = () => {
 
         const response = await geoCoder.geocode(geoCoderRequest);
 
+        console.log(response);
+
         if (response.results.length > 0) {
-            return response.results[0].formatted_address
+            return {
+                formatted_address: response.results[0].formatted_address,
+                place_id: response.results[0].place_id
+            }
         }
 
         return null;
@@ -125,7 +137,8 @@ const FavoriteAddPage = () => {
             const { lat, lng } = response.results[0].geometry.location.toJSON();
             setCurrentLocation({ lat, lng })
             const address = await getAddress({ lat, lng });
-            setAddress(address || "")
+            setAddress(address?.formatted_address || "")
+            setCurrentPlaceId(address?.place_id || "")
         }
 
         setPlaceSuggestions([]);
@@ -214,7 +227,7 @@ const FavoriteAddPage = () => {
             </Button>
 
             {/* Drawer */}
-            <AddFavoriteDrawer isOpen={isOpen} onClose={onClose} address={address} currentLocation={currentLocation} />
+            <AddFavoriteDrawer isOpen={isOpen} onClose={onClose} address={address} placeId={currentPlaceId} currentLocation={currentLocation} />
         </Flex >
     )
 }
