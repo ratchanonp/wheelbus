@@ -1,5 +1,4 @@
-import { Flex, Icon, Text } from "@chakra-ui/react";
-import { FaBus } from "react-icons/fa6";
+import { Flex, Image, Text } from "@chakra-ui/react";
 
 type Props = {
     step: google.maps.DirectionsStep
@@ -8,11 +7,14 @@ type Props = {
 const Transit = (props: Props) => {
 
     const { step } = props;
+    const { transit } = step
+    const { line } = transit as google.maps.TransitDetails;
+    const { color, vehicle } = line;
 
     return (
         <Flex maxW="200px" gap={1} >
-            <Icon w={6} h={6} as={FaBus} />
-            <Text minW="100px" maxW="100px" noOfLines={1} overflow="hidden" bg="brand.500" color="white" px={2} wordBreak="break-all">
+            <Image src={vehicle.icon} w={6} h={6} />
+            <Text minW="100px" maxW="100px" noOfLines={1} overflow="hidden" bgColor={color} color="white" px={2} wordBreak="break-all">
                 {step.transit?.line.name}
             </Text>
         </Flex >
