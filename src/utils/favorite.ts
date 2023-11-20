@@ -1,5 +1,5 @@
 import { auth, db } from "@/firebase/firebase";
-import { FavoritePlace, FavoritePlaceInput } from "@/interfaces/favorite.interface";
+import { FavoriteCategory, FavoritePlace, FavoritePlaceInput } from "@/interfaces/favorite.interface";
 import { addDoc, collection, deleteDoc, doc, getDocs, query, updateDoc, where } from "firebase/firestore";
 
 const getFavoritePlaces = async () => {
@@ -42,7 +42,7 @@ const addFavoritePlace = async (favorite: FavoritePlaceInput) => {
     return docRef.id;
 }
 
-const editFavoritePlace = async (id: string, favorite: FavoritePlaceInput): Promise<void> => {
+const editFavoritePlace = async (id: string, favorite: Partial<FavoritePlaceInput>): Promise<void> => {
 
     if (!auth.currentUser) throw new Error("User is not logged in")
 
@@ -63,10 +63,20 @@ const deleteFavoritePlace = async (id: string): Promise<void> => {
     await deleteDoc(favoriteRef);
 }
 
+const favoritePlacesGroupByCategory = (favoritePlaces: FavoritePlace[]): { [key in FavoriteCategory]: FavoritePlace[] } => {
 
+    return favoritePlaces.reduce((acc, favoritePlace) => {
+        const category = favoritePlace.category;
+        if (!acc[category]) {
+            acc[category] = [];
+        }
+        acc[category].push(favoritePlace);
+        return acc;
+    }, {} as { [key in FavoriteCategory]: FavoritePlace[] })
 
+}
 
 export {
-    addFavoritePlace, deleteFavoritePlace, editFavoritePlace, getFavoritePlaces
+    addFavoritePlace, deleteFavoritePlace, editFavoritePlace, favoritePlacesGroupByCategory, getFavoritePlaces
 };
 
