@@ -7,7 +7,6 @@ import { CLEAR_FROM, CLEAR_TO, SET_FOCUSED_INPUT, SET_FROM, SET_TO, SWAP, Search
 import { Box, Circle, Flex, Heading, Icon, IconButton, Input, InputGroup, InputLeftElement, InputRightElement, Stack, Text } from "@chakra-ui/react";
 import { useContext } from "react";
 import { FaArrowLeft, FaTimesCircle } from "react-icons/fa";
-import { FaLocationDot } from "react-icons/fa6";
 import { MdSwapVert } from "react-icons/md";
 import { Link as RouterLink } from "react-router-dom";
 
@@ -116,10 +115,10 @@ const RouteSearchPage = () => {
             <Flex flex={1} direction="column">
                 {focusedInput && placeSuggestions.placeSuggestions.length == 0 && (
                     <Stack p={5} spacing={5} fontFamily="prompt">
-                        <Flex justify="space-between">
+                        {/* <Flex justify="space-between">
                             <Heading size="md" fontWeight="semibold">เลือกบนแผนที่</Heading>
                             <Icon as={FaLocationDot} color="slate" w={4} h={4} />
-                        </Flex>
+                        </Flex> */}
                         <FavoritePlace />
                     </Stack>
                 )}
