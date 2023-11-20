@@ -12,15 +12,15 @@ const Transit = (props: Props) => {
 
     return (
         <Flex gap={5} alignItems="flex-start">
-            <Flex>
+            <Flex pt={3}>
                 <Image src={line.vehicle.icon} w={5} h={5} />
             </Flex>
-            <Flex direction="column" gap={3} w="full">
+            <Flex direction="column" gap={3} w="full" borderBottom="2px solid" borderColor="gray.200" py={3}>
                 <Flex direction="column" border="2px solid" borderColor="origin" p={2} borderRadius="lg">
                     <Text fontSize="x-small" bgColor="origin" color="white" px={2} w="fit-content">ต้นทาง</Text>
                     <Heading size="sm" color="origin">{departure_stop.name}</Heading>
                 </Flex>
-                <Flex direction="column" fontSize="x-small">
+                <Flex direction="column" fontSize="x-small" >
                     <Text>{instructions}</Text>
                     <Text noOfLines={1} overflow="hidden" bgColor={line.color} w="fit-content" color="white" px={2} wordBreak="break-all">
                         {step.transit?.line.name}

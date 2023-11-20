@@ -42,7 +42,7 @@ const NavigationPage = () => {
             <Flex p={5} maxH="40svh" overflow="scroll">
                 <Stack>
                     <Heading>วิธีการเดินทาง</Heading>
-                    <Stack spacing={5}>
+                    <Stack spacing={0}>
                         {routeIndex != null && directions?.routes[routeIndex].legs[0].steps.map((step, index) => (
                             <StepDetail key={index} step={step} />
                         ))}

@@ -11,11 +11,11 @@ const Walking = (props: Props) => {
     const { instructions, distance } = step
 
     return (
-        <Flex align="center" gap={5}>
+        <Flex align="center" gap={5} w="fulll">
             <Flex>
                 <Icon w={4} h={4} as={FaWalking} />
             </Flex>
-            <Flex>
+            <Flex w="full" h="full" borderBottom="2px solid" borderColor="gray.200" py={3}>
                 <Text fontSize="x-small">{instructions} ({distance?.text})</Text>
             </Flex>
         </Flex>
