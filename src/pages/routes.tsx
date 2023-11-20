@@ -2,6 +2,7 @@ import DirectionResult from "@/components/Direction/DirectionResult/DirectionRes
 import FavoritePlace from "@/components/FavoritePlaces/FavoritePlace";
 import PlaceSuggestion from "@/components/PlaceSuggestion/PlaceSuggestion";
 import { CLEAR_PLACE_SUGGESTIONS, PlaceSuggestionContext, PlaceSuggestionReducerContext } from "@/contexts/PlaceSuggestionContext";
+import { DirectionRendererDispatchContext } from "@/contexts/RouteContext";
 import { CLEAR_FROM, CLEAR_TO, SET_FOCUSED_INPUT, SET_FROM, SET_TO, SWAP, SearchContext, SearchDispatchContext, focusedInputType } from "@/contexts/SearchContext";
 import { Box, Circle, Flex, Heading, Icon, IconButton, Input, InputGroup, InputLeftElement, InputRightElement, Stack, Text } from "@chakra-ui/react";
 import { useContext } from "react";
@@ -18,6 +19,8 @@ const RouteSearchPage = () => {
     const placeSuggestions = useContext(PlaceSuggestionContext);
     const placeSuggestionsDispatch = useContext(PlaceSuggestionReducerContext);
 
+    const directionDispatch = useContext(DirectionRendererDispatchContext);
+
     const { from, to, focusedInput } = search;
 
     const handleClear = (focusedInput: focusedInputType) => {
@@ -29,6 +32,7 @@ const RouteSearchPage = () => {
         }
 
         placeSuggestionsDispatch({ type: CLEAR_PLACE_SUGGESTIONS })
+        directionDispatch({ type: "CLEAR_DIRECTION" })
     }
 
     return (
