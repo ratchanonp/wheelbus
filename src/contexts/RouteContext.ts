@@ -11,7 +11,7 @@ type ActionType = 'SET_DIRECTION' | 'CLEAR_DIRECTION' | 'PICK_DIRECTION_INDEX'
 
 interface DirectionRendererAction {
     type: ActionType
-    payload: google.maps.DirectionsRendererOptions
+    payload?: google.maps.DirectionsRendererOptions
 }
 
 function directionRendererReducer(rendererOption: google.maps.DirectionsRendererOptions, action: DirectionRendererAction) {
@@ -19,8 +19,11 @@ function directionRendererReducer(rendererOption: google.maps.DirectionsRenderer
         case 'SET_DIRECTION':
             return action.payload;
         case 'CLEAR_DIRECTION':
-            return undefined;
+            return {};
         case 'PICK_DIRECTION_INDEX':
+            if (!action.payload) {
+                throw new Error('payload is undefined');
+            }
             return { ...rendererOption, routeIndex: action.payload.routeIndex };
         default:
             throw new Error();
