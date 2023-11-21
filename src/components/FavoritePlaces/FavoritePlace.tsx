@@ -27,6 +27,8 @@ const FavoritePlace = () => {
             searchDispatch({ type: "SET_TO", payload: { to: customName } })
             searchDispatch({ type: "SET_TO_PLACE_ID", payload: { toPlaceId: placeId } })
         }
+
+        searchDispatch({ type: "CLEAR_FOCUSED_INPUT" })
     }
 
     if (error) return <div>Error</div>
