@@ -4,9 +4,11 @@ import PlaceSuggestion from "@/components/PlaceSuggestion/PlaceSuggestion";
 import { CLEAR_PLACE_SUGGESTIONS, PlaceSuggestionContext, PlaceSuggestionReducerContext } from "@/contexts/PlaceSuggestionContext";
 import { DirectionRendererDispatchContext } from "@/contexts/RouteContext";
 import { CLEAR_FROM, CLEAR_TO, SET_FOCUSED_INPUT, SET_FROM, SET_TO, SWAP, SearchContext, SearchDispatchContext, focusedInputType } from "@/contexts/SearchContext";
-import { Box, Circle, Flex, Heading, Icon, IconButton, Input, InputGroup, InputLeftElement, InputRightElement, Stack, Text } from "@chakra-ui/react";
+import useCurrentPosition from "@/hooks/useCurrentLocation";
+import { Box, Circle, Divider, Flex, Heading, Icon, IconButton, Input, InputGroup, InputLeftElement, InputRightElement, Link, Spinner, Stack, Text } from "@chakra-ui/react";
 import { useContext } from "react";
 import { FaArrowLeft, FaTimesCircle } from "react-icons/fa";
+import { FaLocationCrosshairs, FaLocationDot } from "react-icons/fa6";
 import { MdSwapVert } from "react-icons/md";
 import { Link as RouterLink } from "react-router-dom";
 
@@ -21,6 +23,7 @@ const RouteSearchPage = () => {
     const directionDispatch = useContext(DirectionRendererDispatchContext);
 
     const { from, to, focusedInput } = search;
+    const { loading: currentLocationLoading, getCurrentLocation } = useCurrentPosition();
 
     const handleClear = (focusedInput: focusedInputType) => {
         if (focusedInput === "from") {
@@ -31,6 +34,11 @@ const RouteSearchPage = () => {
         }
 
         placeSuggestionsDispatch({ type: CLEAR_PLACE_SUGGESTIONS })
+        directionDispatch({ type: "CLEAR_DIRECTION" })
+    }
+
+    const handleFocusInput = (focusedInput: focusedInputType) => {
+        searchDispatch({ type: SET_FOCUSED_INPUT, payload: { focusedInput } })
         directionDispatch({ type: "CLEAR_DIRECTION" })
     }
 
@@ -84,7 +92,7 @@ const RouteSearchPage = () => {
                                     bgColor="white" type="text" borderLeft="none" placeholder="ไปที่ไหนดี" fontFamily="prompt" color="gray" _focusVisible={{ border: "none" }}
                                     value={to}
                                     onChange={(e) => { searchDispatch({ type: SET_TO, payload: { to: e.target.value } }) }}
-                                    onFocus={() => searchDispatch({ type: SET_FOCUSED_INPUT, payload: { focusedInput: "to" } })}
+                                    onFocus={() => handleFocusInput("to")}
                                 />
                                 {to && (
                                     <InputRightElement>
@@ -114,11 +122,19 @@ const RouteSearchPage = () => {
             </Stack>
             <Flex flex={1} direction="column">
                 {focusedInput && placeSuggestions.placeSuggestions.length == 0 && (
-                    <Stack p={5} spacing={5} fontFamily="prompt">
-                        {/* <Flex justify="space-between">
+                    <Stack p={5} spacing={3} fontFamily="prompt" divider={<Divider />}>
+                        <Flex justify="space-between" onClick={getCurrentLocation}>
+                            <Heading size="md" fontWeight="semibold">ตำแหน่งปัจจุบัน</Heading>
+                            {!currentLocationLoading ? (
+                                <Icon as={FaLocationCrosshairs} color="slate" w={4} h={4} />
+                            ) : (
+                                <Spinner color="slate" w={4} h={4} />
+                            )}
+                        </Flex>
+                        <Link display="flex" justifyContent="space-between" as={RouterLink} to="/pickLocation">
                             <Heading size="md" fontWeight="semibold">เลือกบนแผนที่</Heading>
                             <Icon as={FaLocationDot} color="slate" w={4} h={4} />
-                        </Flex> */}
+                        </Link>
                         <FavoritePlace />
                     </Stack>
                 )}
