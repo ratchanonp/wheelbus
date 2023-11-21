@@ -5,6 +5,7 @@ import LoginPage from "@/pages/auth/login";
 import RegisterPage from "@/pages/auth/register";
 import FavoriteAddPage from "@/pages/favorite/add";
 import FavoritePage from "@/pages/favorite/favorite";
+import PickLocatopn from "@/pages/map/pickLocation";
 import NavigationPage from "@/pages/navigation";
 import EditProfilePage from "@/pages/profile/edit";
 import RouteSearchPage from "@/pages/routes";
@@ -46,16 +47,20 @@ const router = createBrowserRouter([
         element: <TestPage />
     },
     {
-        path: "favorites",
+        path: "/favorites",
         element: <ProtectedRoute><FavoritePage /></ProtectedRoute>,
     },
     {
-        path: "favorites/add",
+        path: "/favorites/add",
         element: <ProtectedRoute><FavoriteAddPage /></ProtectedRoute>,
     },
     {
-        path: "profile/edit",
+        path: "/profile/edit",
         element: <ProtectedRoute><EditProfilePage /></ProtectedRoute>
+    },
+    {
+        path: "/pickLocation",
+        element: <PickLocatopn />
     }
 ])
 
