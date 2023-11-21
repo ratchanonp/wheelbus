@@ -1,13 +1,22 @@
 // Hook return current location
 
-import { useEffect, useState } from 'react';
+import { SearchContext, SearchDispatchContext } from '@/contexts/SearchContext';
+import getAddress from '@/utils/Maps/getAddress';
+import { useMapsLibrary } from '@vis.gl/react-google-maps';
+import { useContext, useState } from 'react';
 
 export default function useCurrentPosition() {
 
+    const search = useContext(SearchContext);
+    const dispatchSearch = useContext(SearchDispatchContext);
+    const geoCodingLibrary = useMapsLibrary("geocoding");
+
+    const { focusedInput } = search;
+
     const initialLocationState: GeolocationPosition = {
         coords: {
-            latitude: 0,
-            longitude: 0,
+            latitude: 13.7391855,
+            longitude: 100.5330713,
             accuracy: 0,
             altitude: 0,
             altitudeAccuracy: 0,
@@ -17,25 +26,37 @@ export default function useCurrentPosition() {
         timestamp: 0,
     };
 
-    const [loading, setLoading] = useState<boolean>(true);
+    const [loading, setLoading] = useState<boolean>(false);
     const [location, setLocation] = useState<GeolocationPosition>(initialLocationState);
     const [error, setError] = useState<string | null>(null);
 
-    useEffect(() => {
-        const geo = navigator.geolocation;
+    const getCurrentLocation = () => {
+        setLoading(true);
+        setError(null);
 
-        if (!geo) {
-            setError('Geolocation is not supported');
-            return;
+        navigator.geolocation.getCurrentPosition(onChange, onError, {
+            enableHighAccuracy: true,
+        });
+    }
+
+
+    const onChange: PositionCallback = async (position: GeolocationPosition) => {
+        if (geoCodingLibrary) {
+            const result = await getAddress({ lat: position.coords.latitude, lng: position.coords.longitude }, geoCodingLibrary);
+            if (result) {
+                setLocation(position);
+                if (focusedInput === "from") {
+                    dispatchSearch({ type: "SET_FROM", payload: { from: "ตำแหน่งปัจจุบัน" } })
+                    dispatchSearch({ type: "SET_FROM_PLACE_ID", payload: { fromPlaceId: result.place_id } })
+                } else if (focusedInput === "to") {
+                    dispatchSearch({ type: "SET_TO", payload: { to: "ตำแหน่งปัจจุบัน" } })
+                    dispatchSearch({ type: "SET_TO_PLACE_ID", payload: { toPlaceId: result.place_id } })
+                } else {
+                    dispatchSearch({ type: "SET_FROM", payload: { from: "ตำแหน่งปัจจุบัน" } })
+                    dispatchSearch({ type: "SET_FROM_PLACE_ID", payload: { fromPlaceId: result.place_id } })
+                }
+            }
         }
-
-        const currentPosition = geo.getCurrentPosition(onChange, onError);
-
-        return () => currentPosition;
-    }, []);
-
-    const onChange: PositionCallback = (position: GeolocationPosition) => {
-        setLocation(position);
         setLoading(false);
     };
 
@@ -44,6 +65,6 @@ export default function useCurrentPosition() {
         setLoading(false);
     };
 
-    return { location, loading, error };
+    return { location, loading, error, getCurrentLocation };
 
 }
