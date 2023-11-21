@@ -15,7 +15,7 @@ const DirectionResult = () => {
     const search = useContext(SearchContext);
     const searchDispatch = useContext(SearchDispatchContext);
 
-    const { fromPlaceId, toPlaceId } = search;
+    const { fromPlaceId, toPlaceId, focusedInput } = search;
 
     const { direction, getDirection } = useGetDirection();
 
@@ -35,10 +35,10 @@ const DirectionResult = () => {
     }
 
     useEffect(() => {
-        if (fromPlaceId && toPlaceId) {
+        if (fromPlaceId && toPlaceId && focusedInput === null) {
             getDirection(fromPlaceId, toPlaceId);
         }
-    }, [fromPlaceId, toPlaceId])
+    }, [fromPlaceId, toPlaceId, focusedInput])
 
     useEffect(() => {
         if (direction) {
