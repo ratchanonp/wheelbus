@@ -1,17 +1,8 @@
 // Hook return current location
 
-import { SearchContext, SearchDispatchContext } from '@/contexts/SearchContext';
-import getAddress from '@/utils/Maps/getAddress';
-import { useMapsLibrary } from '@vis.gl/react-google-maps';
-import { useContext, useState } from 'react';
+import { useState } from 'react';
 
 export default function useCurrentPosition() {
-
-    const search = useContext(SearchContext);
-    const dispatchSearch = useContext(SearchDispatchContext);
-    const geoCodingLibrary = useMapsLibrary("geocoding");
-
-    const { focusedInput } = search;
 
     const initialLocationState: GeolocationPosition = {
         coords: {
@@ -41,22 +32,7 @@ export default function useCurrentPosition() {
 
 
     const onChange: PositionCallback = async (position: GeolocationPosition) => {
-        if (geoCodingLibrary) {
-            const result = await getAddress({ lat: position.coords.latitude, lng: position.coords.longitude }, geoCodingLibrary);
-            if (result) {
-                setLocation(position);
-                if (focusedInput === "from") {
-                    dispatchSearch({ type: "SET_FROM", payload: { from: "ตำแหน่งปัจจุบัน" } })
-                    dispatchSearch({ type: "SET_FROM_PLACE_ID", payload: { fromPlaceId: result.place_id } })
-                } else if (focusedInput === "to") {
-                    dispatchSearch({ type: "SET_TO", payload: { to: "ตำแหน่งปัจจุบัน" } })
-                    dispatchSearch({ type: "SET_TO_PLACE_ID", payload: { toPlaceId: result.place_id } })
-                } else {
-                    dispatchSearch({ type: "SET_FROM", payload: { from: "ตำแหน่งปัจจุบัน" } })
-                    dispatchSearch({ type: "SET_FROM_PLACE_ID", payload: { fromPlaceId: result.place_id } })
-                }
-            }
-        }
+        setLocation(position);
         setLoading(false);
     };
 

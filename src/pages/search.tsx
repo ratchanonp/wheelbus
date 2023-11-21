@@ -2,13 +2,15 @@ import logo from '@/assets/logo.svg';
 import CustomMarker from '@/components/CustomMarker/CustomMarker';
 import StartMarker from '@/components/CustomMarker/StartMarker';
 import SideDrawerContent from '@/components/SideDrawer/SideDrawer';
+import { SearchDispatchContext } from '@/contexts/SearchContext';
 import useCurrentLocation from '@/hooks/useCurrentLocation';
+import getAddress from '@/utils/Maps/getAddress';
 import { HamburgerIcon, WarningTwoIcon } from '@chakra-ui/icons';
-import { Box, Container, Divider, Flex, Heading, Icon, IconButton, Image, Link, Stack, Text, useDisclosure } from "@chakra-ui/react";
-import { Map } from "@vis.gl/react-google-maps";
-import { useEffect, useMemo } from 'react';
+import { Box, Button, Container, Divider, Flex, Heading, Icon, IconButton, Image, Stack, Text, useDisclosure } from "@chakra-ui/react";
+import { Map, useMapsLibrary } from "@vis.gl/react-google-maps";
+import { useContext, useEffect, useMemo } from 'react';
 import { FaLocationCrosshairs } from 'react-icons/fa6';
-import { Link as RouterLink } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 function SerchPage() {
 
@@ -16,6 +18,11 @@ function SerchPage() {
     const { latitude, longitude } = location.coords;
 
     const { isOpen, onOpen, onClose } = useDisclosure();
+
+    const geoCodingLibrary = useMapsLibrary("geocoding");
+    const dispatchSearch = useContext(SearchDispatchContext);
+
+    const navigate = useNavigate();
 
 
     const currentLocation: google.maps.LatLngLiteral = useMemo(() => {
@@ -28,6 +35,20 @@ function SerchPage() {
     useEffect(() => {
         getCurrentLocation();
     }, [])
+
+    const handleGo = async () => {
+        if (geoCodingLibrary) {
+            const result = await getAddress({ lat: latitude, lng: longitude }, geoCodingLibrary);
+            if (result) {
+
+                dispatchSearch({ type: "SET_FROM", payload: { from: "ตำแหน่งปัจจุบัน" } })
+                dispatchSearch({ type: "SET_FROM_PLACE_ID", payload: { fromPlaceId: result.place_id } })
+
+            }
+        }
+
+        navigate("/routesSearch")
+    }
 
 
     return (
@@ -57,14 +78,14 @@ function SerchPage() {
             </Flex>
             <Flex w="100%" position="absolute" bottom={0} px={2.5}>
                 <Stack bgColor="brand.500" w="full" borderTopRadius="2xl" p={4} spacing={5}>
-                    <Link as={RouterLink}
+                    <Button
+                        onClick={handleGo}
                         _hover={{ textDecoration: "none" }} display="flex" bgColor="white" color="brand.500" w="full" p={3} borderRadius="lg" shadow="md" alignItems="center"
-                        to="/routesSearch"
                     >
                         <Box w={3} h={3} borderRadius="sm" bgColor="red" />
                         <Heading flex={1} textAlign="center" color="slate.500" size="md" fontWeight="medium">ไปที่ไหนดี?</Heading>
                         <Box w={3} h={3} borderRadius="sm" bgColor="transparent" />
-                    </Link>
+                    </Button>
                 </Stack>
             </Flex>
             <Stack position="absolute" right={5} bottom="100px" bgColor="white" borderRadius="lg" shadow="xl" divider={<Divider />} spacing={0}>

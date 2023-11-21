@@ -3,9 +3,11 @@ import FavoritePlace from "@/components/FavoritePlaces/FavoritePlace";
 import PlaceSuggestion from "@/components/PlaceSuggestion/PlaceSuggestion";
 import { CLEAR_PLACE_SUGGESTIONS, PlaceSuggestionContext, PlaceSuggestionReducerContext } from "@/contexts/PlaceSuggestionContext";
 import { DirectionRendererDispatchContext } from "@/contexts/RouteContext";
-import { CLEAR_FROM, CLEAR_TO, SET_FOCUSED_INPUT, SET_FROM, SET_TO, SWAP, SearchContext, SearchDispatchContext, focusedInputType } from "@/contexts/SearchContext";
+import { CLEAR_FOCUSED_INPUT, CLEAR_FROM, CLEAR_TO, SET_FOCUSED_INPUT, SET_FROM, SET_FROM_PLACE_ID, SET_TO, SET_TO_PLACE_ID, SWAP, SearchContext, SearchDispatchContext, focusedInputType } from "@/contexts/SearchContext";
 import useCurrentPosition from "@/hooks/useCurrentLocation";
+import getAddress from "@/utils/Maps/getAddress";
 import { Box, Circle, Divider, Flex, Heading, Icon, IconButton, Input, InputGroup, InputLeftElement, InputRightElement, Link, Spinner, Stack, Text } from "@chakra-ui/react";
+import { useMapsLibrary } from "@vis.gl/react-google-maps";
 import { useContext } from "react";
 import { FaArrowLeft, FaTimesCircle } from "react-icons/fa";
 import { FaLocationCrosshairs, FaLocationDot } from "react-icons/fa6";
@@ -13,6 +15,8 @@ import { MdSwapVert } from "react-icons/md";
 import { Link as RouterLink } from "react-router-dom";
 
 const RouteSearchPage = () => {
+
+    const geoCodingLibrary = useMapsLibrary("geocoding");
 
     const search = useContext(SearchContext);
     const searchDispatch = useContext(SearchDispatchContext);
@@ -23,7 +27,7 @@ const RouteSearchPage = () => {
     const directionDispatch = useContext(DirectionRendererDispatchContext);
 
     const { from, to, focusedInput } = search;
-    const { loading: currentLocationLoading, getCurrentLocation } = useCurrentPosition();
+    const { loading: currentLocationLoading, getCurrentLocation, location: currentLocation } = useCurrentPosition();
 
     const handleClear = (focusedInput: focusedInputType) => {
         if (focusedInput === "from") {
@@ -40,6 +44,32 @@ const RouteSearchPage = () => {
     const handleFocusInput = (focusedInput: focusedInputType) => {
         searchDispatch({ type: SET_FOCUSED_INPUT, payload: { focusedInput } })
         directionDispatch({ type: "CLEAR_DIRECTION" })
+    }
+
+    const handleCurentLocation = async () => {
+        getCurrentLocation();
+
+        // Wait loading to be false
+        while (currentLocationLoading);
+
+        const { latitude, longitude } = currentLocation.coords;
+
+        if (currentLocation && geoCodingLibrary) {
+            const result = await getAddress({ lat: latitude, lng: longitude }, geoCodingLibrary);
+            if (result) {
+                if (focusedInput === "from") {
+                    searchDispatch({ type: SET_FROM, payload: { from: "ตำแหน่งปัจจุบัน" } })
+                    searchDispatch({ type: SET_FROM_PLACE_ID, payload: { fromPlaceId: result.place_id } })
+                } else if (focusedInput === "to") {
+                    searchDispatch({ type: SET_TO, payload: { to: "ตำแหน่งปัจจุบัน" } })
+                    searchDispatch({ type: SET_TO_PLACE_ID, payload: { toPlaceId: result.place_id } })
+                }
+            }
+        }
+
+        placeSuggestionsDispatch({ type: CLEAR_PLACE_SUGGESTIONS })
+        directionDispatch({ type: "CLEAR_DIRECTION" })
+        searchDispatch({ type: CLEAR_FOCUSED_INPUT })
     }
 
     return (
@@ -123,7 +153,7 @@ const RouteSearchPage = () => {
             <Flex flex={1} direction="column">
                 {focusedInput && placeSuggestions.placeSuggestions.length == 0 && (
                     <Stack p={5} spacing={3} fontFamily="prompt" divider={<Divider />}>
-                        <Flex justify="space-between" onClick={getCurrentLocation}>
+                        <Flex justify="space-between" onClick={handleCurentLocation}>
                             <Heading size="md" fontWeight="semibold">ตำแหน่งปัจจุบัน</Heading>
                             {!currentLocationLoading ? (
                                 <Icon as={FaLocationCrosshairs} color="slate" w={4} h={4} />
