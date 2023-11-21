@@ -2,7 +2,7 @@
 import StartMarker from "@/components/CustomMarker/StartMarker"
 import AddFavoriteDrawer from "@/components/Favorite/AddFavoriteDrawer"
 import useCurrentLocation from "@/hooks/useCurrentLocation"
-import { PlaceData } from "@/interfaces/favorite.interface"
+import getAddress from "@/utils/Maps/getAddress"
 import { WarningTwoIcon } from "@chakra-ui/icons"
 import { Box, Button, Divider, Flex, Heading, Icon, IconButton, Input, InputGroup, InputLeftElement, InputRightElement, Spinner, Stack, Text, useDisclosure } from "@chakra-ui/react"
 import { useDebounce } from "@uidotdev/usehooks"
@@ -31,8 +31,8 @@ const FavoriteAddPage = () => {
 
     useEffect(() => {
         const setCurrentAddress = async () => {
-            if (latitude && longitude) {
-                const addressResult = await getAddress({ lat: latitude, lng: longitude });
+            if (latitude && longitude && geoCodingLibrary) {
+                const addressResult = await getAddress({ lat: latitude, lng: longitude }, geoCodingLibrary);
 
                 if (!addressResult) return null;
                 const { formatted_address, place_id } = addressResult;
@@ -87,38 +87,14 @@ const FavoriteAddPage = () => {
     const handleMapDrag = async (e: MapEvent) => {
         // Get the coordinates of the center of the map
         const { map } = e;
-        if (map.getCenter()) {
+        if (map.getCenter() && geoCodingLibrary) {
             const { lat, lng } = (map.getCenter() as google.maps.LatLng).toJSON()
             setCurrentLocation({ lat, lng })
             // Get the address of the center of the map
-            const address = await getAddress(currentLocation);
+            const address = await getAddress(currentLocation, geoCodingLibrary);
             setAddress(address?.formatted_address || "")
             setCurrentPlaceId(address?.place_id || "")
         }
-    }
-
-    const getAddress = async (location: google.maps.LatLngLiteral): Promise<PlaceData | null> => {
-
-        if (!geoCodingLibrary) return null;
-        const geoCoder = new geoCodingLibrary.Geocoder();
-
-        const geoCoderRequest: google.maps.GeocoderRequest = {
-            location: location,
-            language: "th",
-        }
-
-        const response = await geoCoder.geocode(geoCoderRequest);
-
-        console.log(response);
-
-        if (response.results.length > 0) {
-            return {
-                formatted_address: response.results[0].formatted_address,
-                place_id: response.results[0].place_id
-            }
-        }
-
-        return null;
     }
 
     const handleSelectSuggestion = async (placeId: string) => {
@@ -133,10 +109,10 @@ const FavoriteAddPage = () => {
 
         const response = await geoCoder.geocode(geoCoderRequest);
 
-        if (response.results.length > 0) {
+        if (response.results.length > 0 && geoCodingLibrary) {
             const { lat, lng } = response.results[0].geometry.location.toJSON();
             setCurrentLocation({ lat, lng })
-            const address = await getAddress({ lat, lng });
+            const address = await getAddress({ lat, lng }, geoCodingLibrary);
             setAddress(address?.formatted_address || "")
             setCurrentPlaceId(address?.place_id || "")
         }
