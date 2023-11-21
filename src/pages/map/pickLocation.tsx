@@ -4,11 +4,11 @@ import useCurrentPosition from "@/hooks/useCurrentLocation"
 import { PlaceData } from "@/interfaces/favorite.interface"
 import getAddress from "@/utils/Maps/getAddress"
 import { WarningTwoIcon } from "@chakra-ui/icons"
-import { Box, Button, Flex, Heading, Icon, IconButton, Spinner, Stack, Text } from "@chakra-ui/react"
+import { Box, Button, Divider, Flex, Heading, Icon, IconButton, Spinner, Stack, Text } from "@chakra-ui/react"
 import { Map, useMapsLibrary } from "@vis.gl/react-google-maps"
 import { MapEvent } from "node_modules/@vis.gl/react-google-maps/dist/components/map/use-map-events"
 import { useContext, useEffect, useState } from "react"
-import { FaArrowLeft } from "react-icons/fa6"
+import { FaArrowLeft, FaLocationCrosshairs } from "react-icons/fa6"
 import { Link as RouterLink, useNavigate } from "react-router-dom"
 
 const PickLocatopn = () => {
@@ -130,6 +130,10 @@ const PickLocatopn = () => {
             <Button position="absolute" bgColor="white" w="90svw" bottom={8} size="lg" mx="auto" left={0} right={0} shadow="md" isDisabled={currentLocationLoading} onClick={handleSelectedLocation}>
                 เลือกตำแหน่งนี้
             </Button>
+
+            <Stack position="absolute" right={5} bottom="100px" bgColor="white" borderRadius="lg" shadow="xl" divider={<Divider />} spacing={0}>
+                <IconButton variant="none" icon={<Icon as={FaLocationCrosshairs} w={6} h={6} />} aria-label="Get Current Location" color="brand.500" onClick={getCurrentLocation} isLoading={currentLocationLoading} />
+            </Stack>
         </Flex >
     )
 }
